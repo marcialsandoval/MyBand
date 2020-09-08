@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    style="@style/dialogTheme"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center_horizontal"
+        android:text="@string/conscent_msg"
+        android:textColor="@color/colorPrimaryDark" />
+
+
+    <Button
+        android:textColor="@android:color/white"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/btnConsent"
+        android:background="@drawable/toggle_button_off_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/consent" />
+
+
+</LinearLayout>

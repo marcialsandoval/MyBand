@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_weight="1"
+            android:src="@drawable/uabc_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/PrimaryTextStyle"
+            android:layout_marginTop="16dp"
+            android:textSize="12pt"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/processing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ProgressBar
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

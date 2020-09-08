@@ -1,0 +1,55 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@drawable/myband_launcher</item>
+
+    </style>
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
+    <!-- SensorReading sensor name text style -->
+    <style name="PrimaryTextStyle" >
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+
+    </style>
+
+    <style name="dialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--buttons color-->
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <!--title and message color-->
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <!--dialog background-->
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="LabelNameEditText" >
+
+        <item name="android:background">@drawable/edit_label_edittext_background</item>
+        <item name="android:hint">@string/label</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+
+    </style>
+
+
+</resources>

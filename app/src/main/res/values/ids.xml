@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="heart_rate_sensorview" type="id">heart_rate_sensorview</item>
+    <item name="rr_interval_sensorview" type="id">rr_interval_sensorview</item>
+    <item name="accelerometer_sensorview" type="id">accelerometer_sensorview</item>
+    <item name="altimeter_sensorview" type="id">altimeter_sensorview</item>
+    <item name="ambient_light_sensorview" type="id">ambient_light_sensorview</item>
+    <item name="barometer_sensorview" type="id">barometer_sensorview</item>
+    <item name="gsr_sensorview" type="id">gsr_sensorview</item>
+    <item name="calories_sensorview" type="id">calories_sensorview</item>
+    <item name="distance_sensorview" type="id">distance_sensorview</item>
+    <item name="contact_sensorview" type="id">contact_sensorview</item>
+    <item name="gyroscope_sensorview" type="id">gyroscope_sensorview</item>
+    <item name="pedometer_sensorview" type="id">pedometer_sensorview</item>
+    <item name="skin_temperature_sensorview" type="id">skin_temperature_sensorview</item>
+    <item name="uv_sensorview" type="id">uv_sensorview</item>
+    <item name="band_contact_sensorview" type="id">band_contact_sensorview</item>
+    <item name="sample_rate_spinner" type="id">sample rate spinner</item>
+    <item name="units_textview" type="id">units textview</item>
+    <item name="sample_rate_textview" type="id">sample rate textview</item>
+    <item name="sample_rate_display" type="id">sample rate display</item>
+</resources>
