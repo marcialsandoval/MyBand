@@ -109,29 +109,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.w(LOG_TAG, "onCreate()");
-
         setTheme(R.style.AppTheme_NoActionBar);
-
         setContentView(R.layout.activity_main);
 
+        //Permanent storage of the preferred output csv file format
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         int defaultValue = getResources().getInteger(R.integer.csv_mode_key_default_value);
         prevCsvMode = sharedPref.getInt(getString(R.string.csv_mode_key), defaultValue);
 
+        //Sets activitys toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Initializes global variables
         mListView = (LinearLayout) findViewById(R.id.sensor_list);
         initSensorListView();
 
         mMainLayout = (LinearLayout) findViewById(R.id.main_layout);
         mLoadingView = (LinearLayout) findViewById(R.id.loading_layout);
-        clock = findViewById(R.id.minutes);
 
+        clock = findViewById(R.id.minutes); //Timer display
 
-        date = new Date();
+        date = new Date(); //updates current date for further use on sensor readings and output file label
         displayDate = new SimpleDateFormat("yyMMdd_HHmmSS").format(date);
 
         settingsButton = (ImageButton) findViewById(R.id.settigs_imagebutton);
@@ -139,31 +138,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new SettingsDialog(MainActivity.this).show();
-
-
             }
         });
 
+        //Dynamic FrameLayout that turns red when sensor recording is being made
         saveButtonHolder = (FrameLayout) findViewById(R.id.save_button_holder);
 
         saveDataButton = new SaveButton(this);
         saveDataButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_system_update_alt_white_24dp));
         saveButtonHolder.addView(saveDataButton);
 
-        toggle = (ToggleButton) findViewById(R.id.togglebutton);
-        holder = (FrameLayout) findViewById(R.id.toggle_button_holder);
 
+        toggle = (ToggleButton) findViewById(R.id.togglebutton);// 'Start' Button
         toggle.setTextOff(getResources().getString(R.string.start));
         toggle.setTextOn(getResources().getString(R.string.stop));
         toggle.setChecked(false);
+
+        holder = (FrameLayout) findViewById(R.id.toggle_button_holder); //Dynamic FrameLayout that turns red when sensor recording is being made
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
-                    // The toggle is enabled
-                    Log.v(LOG_TAG, "ToggleButton startButtonClicked()");
 
+                    // The toggle is enabled
                     holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_off_background));
                     clearSensorTextViews();
 
@@ -177,8 +175,6 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
                     // The toggle is disabled
-                    Log.v(LOG_TAG, "ToggleButton stopButtonClicked()");
-
                     bandSubscriptionTaskRunning = false;
                     holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_on_background));
 
@@ -187,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
                         task.cancel(true);
 
                     }
-
 
                     resetTimer();
                     resetSaveDataButton();
@@ -198,15 +193,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //shows loader
         showLoadingView(false);
 
         saveDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Log.v(LOG_TAG, "saveDataButton : " + bandSubscriptionTaskRunning);
-
-                Log.v(LOG_TAG, "saveDataButton isChecked(): " + saveDataButton.isChecked());
 
                 if (bandSubscriptionTaskRunning) {
 
@@ -219,8 +211,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(LOG_TAG, "Check checkbox of " + sr.getSensorName());
 
                         SensorReadingView sensorReadingView = getSensorReadingView(sr);
-
-                        Log.v(LOG_TAG, sr.getSensorName() + " : " + sensorReadingView.getSensorCheckBox().isChecked());
 
                         if (sensorReadingView.getSensorCheckBox().isChecked()) {
 
@@ -246,8 +236,6 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
 
-                    Log.e(LOG_TAG, "bandSubscriptionTaskRunning: " + bandSubscriptionTaskRunning);
-
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.no_data_point), Toast.LENGTH_SHORT).show();
                 }
 
@@ -267,34 +255,20 @@ public class MainActivity extends AppCompatActivity {
         //in case that MS band has been disconnected while recording data
         registerReceiver(createCSVReceiver, new IntentFilter(Constants.CREATE_CSV_RECEIVER));
 
-
-
         //Register broadcast receiver to reset activity if any checkbox is selected
         registerReceiver(timeReceiver, new IntentFilter(getClass().getPackage() + ".BROADCAST"));
 
-
+        //Microsoft band 2 communication status textview
         bandStatusTxt = (TextView) toolbar.findViewById(R.id.band_status);
 
     }
 
-    private void startButtonClicked() {
-        Log.v(LOG_TAG, "btnStart onClick");
-
-        holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_off_background));
-        clearSensorTextViews();
-
-        if (!bandSubscriptionTaskRunning) {
-
-            // Kick off the  loader
-            getLoaderManager().restartLoader(Constants.BAND_SUSCRIPTION_LOADER, null, bandSensorSubscriptionLoader);
-
-        }
-
-    }
-
+    /**
+     * Helper method to show loader on screen.
+     *
+     * @param loadingState set to true to show loader on screen, false otherwise.
+     */
     private void showLoadingView(boolean loadingState) {
-
-        Log.v(LOG_TAG, "showLoadingView loadingState: " + loadingState);
 
         if (loadingState) {
             findViewById(R.id.main_layout).setVisibility(View.GONE);
@@ -310,66 +284,61 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method retrieves the output file from root storage directory of the MyBand app
+     *
+     * @param dir root storage directory of the MyBand app
+     * @param  samplingRate If 'Frequency based' output csv file option is selected, this sampling rate label is going to be
+     *                      attached to the output files label.
+     * @return File Containing the output csv files path.
+     */
     private File getCsvOutputFile(File dir, String samplingRate) {
 
         // the name of the file to export with
-
         date = new Date();
         displayDate = new SimpleDateFormat("yyMMdd_HHmmSS").format(date);
-
         filename = labelPrefix + displayDate + "_" + samplingRate + fileNameExtension;
-
-        Log.v(LOG_TAG, "getCsvOutputFile: filename: " + filename);
 
         return new File(dir, filename);
     }
 
 
     /**
-     * if there is no SD card, create new directory objects to make directory on device
+     * This method retrieves the root storage directory from MyBand app.
+     * If the directory does not exist, it creates it. This is the same directory
+     * on which every output file will be stored.
+     *
+     * @return File Containing MyBand app root storage directory.
      */
     private File getOutputDirectory() {
 
-        Log.v(LOG_TAG, "getOutputDirectory");
-
         File directory = null;
 
+        //Checks whether the android device has an external storage, if it does, the root directory
+        //is going to be retrieved/created from there. If it does not, the root directory
+        //is going to be retrieved/created on the internal memory.
         if (Environment.getExternalStorageState() == null) {
             //create new file directory object
-
-            Log.v(LOG_TAG, "getExternalStorageState() == null");
 
             directory = new File(Environment.getDataDirectory()
                     + "/MyBand/");
 
-            Log.v(LOG_TAG, "directory path: " + Environment.getDataDirectory()
-                    + "/MyBand/");
-
             // if no directory exists, create new directory
             if (!directory.exists()) {
-                Log.v(LOG_TAG, "directory dont exist");
                 directory.mkdir();
-            } else {
-                Log.v(LOG_TAG, "directory exist");
             }
 
-
-            // if phone DOES have sd card
-        } else if (Environment.getExternalStorageState() != null) {
-
-            Log.v(LOG_TAG, "getExternalStorageState() != null");
-
+        } else if (Environment.getExternalStorageState() != null) {            // if phone DOES have sd card
 
             // search for directory on SD card
             directory = new File(Environment.getExternalStorageDirectory()
                     + "/Myband/");
+
             // if no directory exists, create new directory
             if (!directory.exists()) {
-                Log.v(LOG_TAG, "directory dont exist");
                 directory.mkdir();
-            } else {
-                Log.v(LOG_TAG, "directory exist");
             }
+
         }// end of SD card checking
 
         return directory;
@@ -377,12 +346,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * This method retrieves the SensorReadingView corresponding to the sensor data input in the argument.
+     *
+     * @param  sr SensorReading data of the sensor of interest.
+     * @return SensorReadingView of the sensor of interest.
+     */
     private SensorReadingView getSensorReadingView(SensorReading sr) {
 
-        String value;
         int resourceID = 0;
-
-        //Log.v(LOG_TAG,"getSensorReadingView: sr.getSensorName(): " + sr.getSensorName());
 
         switch (sr.getSensorName()) {
             case Constants.HEART_RATE_SENSOR_LABEL:
@@ -448,19 +420,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         SensorReadingView sensorReadingView = null;
-        TextView sensorValueTextView = null;
 
         if (resourceID != 0) {
             sensorReadingView = (SensorReadingView) findViewById(resourceID);
-            sensorValueTextView = (TextView) sensorReadingView.findViewById(R.id.sensor_value);
         }
-
 
         return sensorReadingView;
     }
 
+    /**
+     * This method initializes the ListView where the Sensors of interest are going to be selected.
+     * First, it creates the ArrayList<SensorReading> that the ListView is going to be populated with, and then
+     * assign each object with its corresponding id for later reference.
+     */
     private void initSensorListView() {
 
+        //Creates the ArrayList<SensorReading>
         sensorReadings = new ArrayList<>();
         sensorReadings.add(new SensorReading(this, Constants.HEART_RATE_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.RR_INTERVAL_SENSOR_ID, ""));
@@ -477,23 +452,15 @@ public class MainActivity extends AppCompatActivity {
         sensorReadings.add(new SensorReading(this, Constants.UV_LEVEL_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.BAND_CONTACT_SENSOR_ID, ""));
 
-        populateSensorList();
-
-    }
-
-    private void populateSensorList() {
-        Log.v(LOG_TAG, "populateSensorList() ");
-
-
+        //Adds the SensorReading objects to the ListView
         for (SensorReading sr : sensorReadings) {
 
-
-            Log.v(LOG_TAG, "SENSOR : " + sr.getSensorName());
             SensorReadingView v = new SensorReadingView(this, sr);
             mListView.addView(v);
 
         }
 
+        //Assing each SensorReading object within the ListView its corresponding id.
         for (int i = 0; i < sensorReadings.size(); i++) {
 
             View sensorView = mListView.getChildAt(i);
@@ -561,9 +528,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method is called when the sensor reading recording is aborted by clicking the 'Stop' button.
+     */
     private void stopButtonClicked() {
-
-        Log.v(LOG_TAG, "btnStop onClick");
 
         bandSubscriptionTaskRunning = false;
 
@@ -573,22 +541,31 @@ public class MainActivity extends AppCompatActivity {
         disconnectBand();
     }
 
+    /**
+     * This method restores the saveDataButtons' default state.
+     */
     private void resetSaveDataButton() {
         saveDataButton.setEnabled(true);
         saveDataButton.setChecked(false);
         saveButtonHolder.setBackground(getResources().getDrawable(R.drawable.save_button_off));
     }
 
+    /**
+     * This method restores the toggle buttons' default state.
+     */
     private void resetToggleButton() {
-
-        Log.v(LOG_TAG, "resetToggleButton");
 
         toggle.setChecked(false);
 
     }
 
-
-    private void appendToUI(final String string, String requestCode) {
+    /**
+     * This method display a message on the desired textview defined by the requestCode.
+     * @param  message Message to be displayed
+     * @param  requestCode Textviews unique id on which the message is going to be displayed.
+     *
+     */
+    private void appendToUI(final String message, String requestCode) {
 
         View v;
         TextView sensorValueTextView = null;
@@ -674,25 +651,13 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        sensorValueTextView.setText(string);
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Log.w(LOG_TAG, "onStop()");
-        Log.w(LOG_TAG, "bandSubscriptionTaskRunning: " + bandSubscriptionTaskRunning);
+        sensorValueTextView.setText(message);
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        Log.w(LOG_TAG, "onStart()");
-        Log.w(LOG_TAG, "bandSubscriptionTaskRunning: " + bandSubscriptionTaskRunning);
 
         //This means MyApp is restarting
         if (bandSubscriptionTaskRunning) {
@@ -703,24 +668,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-
-        Log.w(LOG_TAG, "onPostResume()");
-        Log.w(LOG_TAG, "bandSubscriptionTaskRunning: " + bandSubscriptionTaskRunning);
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.w(LOG_TAG, "onResume()");
-        Log.w(LOG_TAG, "bandSubscriptionTaskRunning: " + bandSubscriptionTaskRunning);
-
-
-    }
-
+    /**
+     * This method restores all TextViews on screen to their default values.
+     *
+     */
     private void clearSensorTextViews() {
 
         bandStatusTxt.setText(getResources().getString(R.string.select_option));
@@ -730,22 +681,6 @@ public class MainActivity extends AppCompatActivity {
             sensorTextView.setText("");
         }
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.w(LOG_TAG, "onPause()");
-        Log.w(LOG_TAG, "bandSubscriptionTaskRunning: " + bandSubscriptionTaskRunning);
-//        if (client != null) {
-//            try {
-//
-//                unregisterSensorListeners();
-//
-//            } catch (BandIOException e) {
-//                Log.v(LOG_TAG, "onPause: BandIOException: " + e.getMessage());
-//            }
-//        }
     }
 
 

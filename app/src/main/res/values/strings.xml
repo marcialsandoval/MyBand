@@ -6,7 +6,7 @@
     <string name="consent">consent</string>
     <string name="heart_rate">heart rate</string>
     <string name="rr_interval">rr interval</string>
-    <string name="select_option">Select option</string>
+    <string name="select_option">Select sensors</string>
     <string name="accelerometer">accelerometer</string>
     <string name="altimeter">altimeter</string>
     <string name="ambient_light">ambient light</string>
