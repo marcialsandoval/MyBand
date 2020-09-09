@@ -51,5 +51,23 @@
 
     </style>
 
+    <style name="PrimaryTextListItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:alpha">0.87</item>
 
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+
+    <style name="SecondaryTextListItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:alpha">0.66</item>
+
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

@@ -143,6 +143,16 @@ public class SensorReading  implements  Parcelable{
     Context mContext;
     long mSensorReadingTime;
 
+    public boolean isCheckboxStatus() {
+        return checkboxStatus;
+    }
+
+    public void setCheckboxStatus(boolean checkboxStatus) {
+        this.checkboxStatus = checkboxStatus;
+    }
+
+    boolean checkboxStatus = false;
+
 
     public String getSensorReadingYear() {
 

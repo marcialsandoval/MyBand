@@ -58,21 +58,21 @@ public class Constants {
     public static final int BAND_STATUS_SENSOR_ID = 15;
 
 
-    public static final String HEART_RATE_SENSOR_LABEL =  "heart_rate";
-    public static final String RR_INTERVAL_SENSOR_LABEL = "rr_interval";
-    public static final String ACCELEROMETER_SENSOR_LABEL = "accelerometer";
-    public static final String ALTIMETER_SENSOR_LABEL = "altimeter";
-    public static final String AMBIENT_LIGHT_SENSOR_LABEL = "ambient_light";
-    public static final String BAROMETER_SENSOR_LABEL = "barometer";
-    public static final String GSR_SENSOR_LABEL = "gsr";
-    public static final String CALORIES_SENSOR_LABEL  = "calories";
-    public static final String DISTANCE_SENSOR_LABEL = "distance";
-    public static final String BAND_CONTACT_SENSOR_LABEL = "contact";
-    public static final String GYROSCOPE_SENSOR_LABEL = "gyroscope";
-    public static final String PEDOMETER_SENSOR_LABEL = "pedometer";
-    public static final String SKIN_TEMPERATURE_SENSOR_LABEL = "skin_temperature";
-    public static final String UV_LEVEL_SENSOR_LABEL = "uv";
-    public static final String BAND_STATUS_SENSOR_LABEL = "status";
+    public static final String HEART_RATE_SENSOR_LABEL =  "Heart rate";
+    public static final String RR_INTERVAL_SENSOR_LABEL = "RR interval";
+    public static final String ACCELEROMETER_SENSOR_LABEL = "Accelerometer";
+    public static final String ALTIMETER_SENSOR_LABEL = "Altimeter";
+    public static final String AMBIENT_LIGHT_SENSOR_LABEL = "Ambient Light";
+    public static final String BAROMETER_SENSOR_LABEL = "Barometer";
+    public static final String GSR_SENSOR_LABEL = "Galvanic Skin Response";
+    public static final String CALORIES_SENSOR_LABEL  = "Calories";
+    public static final String DISTANCE_SENSOR_LABEL = "Distance";
+    public static final String BAND_CONTACT_SENSOR_LABEL = "Contact";
+    public static final String GYROSCOPE_SENSOR_LABEL = "Gyroscope";
+    public static final String PEDOMETER_SENSOR_LABEL = "Pedometer";
+    public static final String SKIN_TEMPERATURE_SENSOR_LABEL = "Skin Temperature";
+    public static final String UV_LEVEL_SENSOR_LABEL = "UV";
+    public static final String BAND_STATUS_SENSOR_LABEL = "Status";
 
 
 
