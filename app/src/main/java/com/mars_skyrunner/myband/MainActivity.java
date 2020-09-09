@@ -86,18 +86,13 @@ public class MainActivity extends AppCompatActivity {
     boolean saveClicked = false;
     FrameLayout holder, saveButtonHolder;
     ToggleButton toggle;
-
     ImageButton settingsButton;
     ArrayList<SensorReading> values = new ArrayList<SensorReading>();
-
-    String timeStampPattern = "ddMMyyyy";
     String  fileNameExtension = ".csv";
     String displayDate;
     public static String labelPrefix = "";
     String filename;
-
     File outputDirectory = null;
-
     int csvFileCounter = Constants.SAMPLE_RATE_OPTIONS.length - 1;
     int prevCsvMode;
     private ArrayList<String> sampleDataset = new ArrayList<>();
@@ -659,7 +654,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //This means MyApp is restarting
         if (bandSubscriptionTaskRunning) {
 
             toggle.setChecked(true);
@@ -687,9 +681,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.w(LOG_TAG, "onDestroy()");
-        Log.w(LOG_TAG, "bandSubscriptionTaskRunning: " + bandSubscriptionTaskRunning);
 
+        //Unregister all BroadcastReceivers
         unregisterReceiver(resetSensorReadingReceiver);
         unregisterReceiver(displayVaueReceiver);
         unregisterReceiver(sensorReadingObjectReceiver);
@@ -705,12 +698,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void disconnectBand() {
 
-        Log.v(LOG_TAG, "disconnectBand()");
-
         if (client != null) {
-            Log.v(LOG_TAG, "client != null");
 
             try {
                 client.disconnect().await(3, TimeUnit.SECONDS);
@@ -723,10 +714,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(LOG_TAG, "BandException: " + e.toString());
             }
 
-        } else {
-
-            Log.v(LOG_TAG, "client == null");
         }
+
     }
 
     private void unregisterSensorListeners() throws BandIOException {
@@ -739,7 +728,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Log.v(LOG_TAG, "resetSensorReadingReceiver: onReceive ");
             stopButtonClicked();
 
         }
