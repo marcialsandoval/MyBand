@@ -44,4 +44,5 @@
     <string name="time_based_csv">Time based</string>
     <string name="csv_mode_key">com.mars_skyrunner.myband.CSV_KEY</string>
     <string name="sample_based_csv">Sample based</string>
+    <string name="sensor_reading_error">Sensor reading error</string>
 </resources>
