@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // The toggle is enabled
                     holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_off_background));
-                    clearSensorTextViews();
+                    restoreActivity();
 
                     if (!bandSubscriptionTaskRunning) {
 
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
                     resetTimer();
                     resetSaveDataButton();
-                    clearSensorTextViews();
+                    restoreActivity();
                     disconnectBand();
 
                 }
@@ -378,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
 
         resetSaveDataButton();
         resetToggleButton();
-        clearSensorTextViews();
+        restoreActivity();
         disconnectBand();
     }
 
@@ -509,10 +509,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * This method restores all TextViews on screen to their default values.
+     * This method restores activity to its default values.
      *
      */
-    private void clearSensorTextViews() {
+    private void restoreActivity() {
 
         bandStatusTxt.setText(getResources().getString(R.string.select_option));
 

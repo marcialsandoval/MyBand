@@ -68,6 +68,7 @@ import java.util.concurrent.TimeoutException;
 import static com.mars_skyrunner.myband.MainActivity.client;
 import static com.mars_skyrunner.myband.MainActivity.mListView;
 import static com.mars_skyrunner.myband.MainActivity.saveDataButton;
+import static com.mars_skyrunner.myband.MainActivity.sensorReadings;
 
 /**
  * Permorm MSBand Sensors suscription by using an AsyncTask to perform the
@@ -109,7 +110,6 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
     @Override
     protected void onStartLoading() {
 
-        Log.v(LOG_TAG, "onStartLoading()");
         forceLoad();
     }
 
@@ -127,24 +127,13 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                 Log.v(LOG_TAG, "UserConsent.GRANTED");
             }
         }
-
-
     }
-
-
-
-    /**
-     * This is on a background thread.
-     */
-
 
 
     @Override
     public ConnectionState loadInBackground() {
 
         ConnectionState answer = null;
-
-        Log.v(LOG_TAG, "BandSensorsSubscriptionLoader doInBackground");
 
         try {
 
@@ -161,13 +150,11 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                 Intent sendObjectIntent = new Intent(mContext, BandConnectionService.class);
                 mContext.startService(sendObjectIntent);
 
-                Log.v(LOG_TAG, "bandStts: " + bandStts);
-
-
-                CheckBox hrSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.HEART_RATE_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
+                CheckBox hrSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.HEART_RATE_SENSOR_ID - 1)
+                        .findViewById(R.id.sensor_checkbox);
                 Log.v(LOG_TAG, "HEART_RATE_SENSOR: " + hrSensorCheckBox.isChecked());
 
-                if (hrSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.HEART_RATE_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     heartRateChecked = true;
 
@@ -184,10 +171,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
                 }
 
-                CheckBox rrSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.RR_INTERVAL_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "RR_INTERVAL_SENSOR: " + rrSensorCheckBox.isChecked());
-
-                if (rrSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.RR_INTERVAL_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     rrIntervalChecked = true;
 
@@ -214,10 +198,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
                 }
 
-                CheckBox accSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.ACCELEROMETER_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "ACCELEROMETER_SENSOR: " + accSensorCheckBox.isChecked());
-
-                if (accSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.ACCELEROMETER_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
 
                         Spinner accSensorSampleRateSelector = (Spinner) mListView.getChildAt(Constants.ACCELEROMETER_SENSOR_ID - 1 ).findViewById(R.id.sample_rate_spinner);
@@ -238,11 +219,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-
-                CheckBox altSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.ALTIMETER_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "ALTIMETER_SENSOR: " + altSensorCheckBox.isChecked());
-
-                if (altSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.ALTIMETER_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     try {
                         client.getSensorManager().registerAltimeterEventListener(mAltimeterEventListener);
@@ -252,10 +229,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-                CheckBox ambLightSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.AMBIENT_LIGHT_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "AMBIENT_LIGHT_SENSOR: " + ambLightSensorCheckBox.isChecked());
-
-                if (ambLightSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.AMBIENT_LIGHT_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerAmbientLightEventListener(mAmbientLightEventListener);
                     } catch (BandIOException e) {
@@ -264,10 +238,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-                CheckBox barSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.BAROMETER_SENSOR_ID - 1 ).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "BAROMETER_SENSOR: " + barSensorCheckBox.isChecked());
-
-                if (barSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.BAROMETER_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     try {
                         client.getSensorManager().registerBarometerEventListener(mBarometerEventListener);
@@ -278,11 +249,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                 }
 
 
-                CheckBox gsrSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.GSR_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "GSR_SENSOR: " + gsrSensorCheckBox.isChecked());
-
-
-                if (gsrSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.GSR_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
 
                         Spinner gsrSensorSampleRateSelector = (Spinner) mListView.getChildAt(Constants.GSR_SENSOR_ID - 1).findViewById(R.id.sample_rate_spinner);
@@ -297,10 +264,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                 }
 
 
-                CheckBox calSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.CALORIES_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "CALORIES_SENSOR: " + calSensorCheckBox.isChecked());
-
-                if (calSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.CALORIES_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerCaloriesEventListener(mCaloriesEventListener);
                     } catch (BandIOException e) {
@@ -309,11 +273,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-
-                CheckBox contactSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.BAND_CONTACT_SENSOR_ID - 1 ).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "BAND_CONTACT_SENSOR: " + contactSensorCheckBox.isChecked());
-
-                if (contactSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.BAND_CONTACT_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerContactEventListener(mContactEventListener);
                     } catch (BandIOException e) {
@@ -323,11 +283,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
                 }
 
-
-                CheckBox distSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.DISTANCE_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "DISTANCE_SENSOR: " + distSensorCheckBox.isChecked());
-
-                if (distSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.DISTANCE_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerDistanceEventListener(mDistanceEventListener);
                     } catch (BandIOException e) {
@@ -336,11 +292,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-
-                CheckBox gyroSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.GYROSCOPE_SENSOR_ID - 1 ).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "GYROSCOPE_SENSOR: " + gyroSensorCheckBox.isChecked());
-
-                if (gyroSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.GYROSCOPE_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
 
                         Spinner gyroSensorSampleRateSelector = (Spinner) mListView.getChildAt(Constants.GYROSCOPE_SENSOR_ID - 1).findViewById(R.id.sample_rate_spinner);
@@ -354,11 +306,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-
-                CheckBox pedSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.PEDOMETER_SENSOR_ID- 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "PEDOMETER_SENSOR: " + pedSensorCheckBox.isChecked());
-
-                if (pedSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.PEDOMETER_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerPedometerEventListener(mPedometerEventListener);
                     } catch (BandIOException e) {
@@ -367,11 +315,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-
-                CheckBox skinTempSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.SKIN_TEMPERATURE_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "SKIN_TEMPERATURE_SENSOR: " + skinTempSensorCheckBox.isChecked());
-
-                if (skinTempSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.SKIN_TEMPERATURE_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerSkinTemperatureEventListener(mSkinTemperatureListener);
                     } catch (BandIOException e) {
@@ -380,11 +324,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-
-                CheckBox uvSensorCheckBox = (CheckBox) mListView.getChildAt(Constants.UV_LEVEL_SENSOR_ID - 1).findViewById(R.id.sensor_checkbox);
-                Log.v(LOG_TAG, "UV_LEVEL_SENSOR: " + uvSensorCheckBox.isChecked());
-
-                if (uvSensorCheckBox.isChecked()) {
+                if (sensorReadings.get(Constants.UV_LEVEL_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerUVEventListener(mUVEventListener);
                     } catch (BandIOException e) {
