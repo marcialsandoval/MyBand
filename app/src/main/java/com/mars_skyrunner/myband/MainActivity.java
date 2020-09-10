@@ -124,140 +124,134 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.sensor_list);
         initSensorListView();
 
-//
-//        mMainLayout = (LinearLayout) findViewById(R.id.main_layout);
-//        mLoadingView = (LinearLayout) findViewById(R.id.loading_layout);
-//
-//        clock = findViewById(R.id.minutes); //Timer display
-//
-//        date = new Date(); //updates current date for further use on sensor readings and output file label
-//        displayDate = new SimpleDateFormat("yyMMdd_HHmmSS").format(date);
-//
-//        settingsButton = (ImageButton) findViewById(R.id.settigs_imagebutton);
-//        settingsButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                new SettingsDialog(MainActivity.this).show();
-//            }
-//        });
-//
-//        //Dynamic FrameLayout that turns red when sensor recording is being made
-//        saveButtonHolder = (FrameLayout) findViewById(R.id.save_button_holder);
-//
-//        saveDataButton = new SaveButton(this);
-//        saveDataButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_system_update_alt_white_24dp));
-//        saveButtonHolder.addView(saveDataButton);
-//
-//
-//        toggle = (ToggleButton) findViewById(R.id.togglebutton);// 'Start' Button
-//        toggle.setTextOff(getResources().getString(R.string.start));
-//        toggle.setTextOn(getResources().getString(R.string.stop));
-//        toggle.setChecked(false);
-//
-//        holder = (FrameLayout) findViewById(R.id.toggle_button_holder); //Dynamic FrameLayout that turns red when sensor recording is being made
-//
-//        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                if (isChecked) {
-//
-//                    // The toggle is enabled
-//                    holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_off_background));
-//                    clearSensorTextViews();
-//
-//                    if (!bandSubscriptionTaskRunning) {
-//
-//                        // Kick off the  loader
-//                        getLoaderManager().restartLoader(Constants.BAND_SUSCRIPTION_LOADER, null, bandSensorSubscriptionLoader);
-//
-//                    }
-//
-//
-//                } else {
-//                    // The toggle is disabled
-//                    bandSubscriptionTaskRunning = false;
-//                    holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_on_background));
-//
-//                    if(task != null ){
-//
-//                        task.cancel(true);
-//
-//                    }
-//
-//                    resetTimer();
-//                    resetSaveDataButton();
-//                    clearSensorTextViews();
-//                    disconnectBand();
-//
-//                }
-//            }
-//        });
-//
-//        //shows loader
-//        showLoadingView(false);
-//
-//        saveDataButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (bandSubscriptionTaskRunning) {
-//
-//                    boolean sensorSelected = false;
-//
-//                    saveClicked = true;
-//
-//                    for (SensorReading sr : sensorReadings) {
-//
-//                        SensorReadingView sensorReadingView = getSensorReadingView(sr);
-//
-//                        if (sensorReadingView.getSensorCheckBox().isChecked()) {
-//
-//                            sensorSelected = true;
-//
-//                        }
-//
-//                    }
-//
-//                    if (!sensorSelected) {
-//                        stopButtonClicked();
-//                        //Band is connected, but no sensor is selected to take any data point
-//                        Toast.makeText(MainActivity.this, getResources().getString(R.string.no_data_point), Toast.LENGTH_SHORT).show();
-//
-//                    } else {
-//                        if (saveDataButton.isChecked()) {
-//                            resetSaveDataButton();
-//                        } else {
-//                            saveDataButton.setChecked(true);
-//                            saveButtonHolder.setBackground(getResources().getDrawable(R.drawable.save_button_on));
-//                        }
-//                    }
-//
-//                } else {
-//
-//                    Toast.makeText(MainActivity.this, getResources().getString(R.string.no_data_point), Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        });
-//
-//        //Register broadcast receiver to reset activity if any checkbox is selected
-//        registerReceiver(resetSensorReadingReceiver, new IntentFilter(Constants.RESET_SENSOR_READING));
-//
-//        //Register broadcast receiver to print values on screen from BandSensorsSubscriptionLoader
-//        registerReceiver(displayVaueReceiver, new IntentFilter(Constants.DISPLAY_VALUE));
-//
-//        //Register broadcast receiver to save SensorReading objects from BandSensorsSubscriptionLoader
-//        registerReceiver(sensorReadingObjectReceiver, new IntentFilter(Constants.SENSOR_READING_OBJECT_RECEIVER));
-//
-//        //Register broadcast receiver to create csv file from BandConnectionService
-//        //in case that MS band has been disconnected while recording data
-//        registerReceiver(createCSVReceiver, new IntentFilter(Constants.CREATE_CSV_RECEIVER));
-//
-//        //Register broadcast receiver to reset activity if any checkbox is selected
-//        registerReceiver(timeReceiver, new IntentFilter(getClass().getPackage() + ".BROADCAST"));
-//
-//        //Microsoft band 2 communication status textview
-//        bandStatusTxt = (TextView) toolbar.findViewById(R.id.band_status);
+
+        mMainLayout = (LinearLayout) findViewById(R.id.main_layout);
+        mLoadingView = (LinearLayout) findViewById(R.id.loading_layout);
+
+        clock = findViewById(R.id.minutes); //Timer display
+
+        date = new Date(); //updates current date for further use on sensor readings and output file label
+        displayDate = new SimpleDateFormat("yyMMdd_HHmmSS").format(date);
+
+        settingsButton = (ImageButton) findViewById(R.id.settigs_imagebutton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SettingsDialog(MainActivity.this).show();
+            }
+        });
+
+        //Dynamic FrameLayout that turns red when sensor recording is being made
+        saveButtonHolder = (FrameLayout) findViewById(R.id.save_button_holder);
+
+        saveDataButton = new SaveButton(this);
+        saveDataButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_system_update_alt_white_24dp));
+        saveButtonHolder.addView(saveDataButton);
+
+
+        toggle = (ToggleButton) findViewById(R.id.togglebutton);// 'Start' Button
+        toggle.setTextOff(getResources().getString(R.string.start));
+        toggle.setTextOn(getResources().getString(R.string.stop));
+        toggle.setChecked(false);
+
+        holder = (FrameLayout) findViewById(R.id.toggle_button_holder); //Dynamic FrameLayout that turns red when sensor recording is being made
+
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+
+                    // The toggle is enabled
+                    holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_off_background));
+                    clearSensorTextViews();
+
+                    if (!bandSubscriptionTaskRunning) {
+
+                        // Kick off the  loader
+                        getLoaderManager().restartLoader(Constants.BAND_SUSCRIPTION_LOADER, null, bandSensorSubscriptionLoader);
+
+                    }
+
+
+                } else {
+                    // The toggle is disabled
+                    bandSubscriptionTaskRunning = false;
+                    holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_on_background));
+
+                    if(task != null ){
+
+                        task.cancel(true);
+
+                    }
+
+                    resetTimer();
+                    resetSaveDataButton();
+                    clearSensorTextViews();
+                    disconnectBand();
+
+                }
+            }
+        });
+
+        //shows loader
+        showLoadingView(false);
+
+        saveDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (bandSubscriptionTaskRunning) {
+
+                    boolean sensorSelected = false;
+
+                    saveClicked = true;
+
+                    for (SensorReading sr : sensorReadings) {
+
+                        if (sr.isCheckboxStatus()) {
+                            sensorSelected = true;
+                            sensorReadings.get(sr.getSensorID() -1 ).setProgressBarStatus(true);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    if (!sensorSelected) {  //Band is connected, but no sensor is selected to take any data point
+
+                        stopButtonClicked();
+                        Toast.makeText(MainActivity.this, getResources().getString(R.string.no_data_point), Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        if (saveDataButton.isChecked()) {
+                            resetSaveDataButton();
+                        } else {
+                            saveDataButton.setChecked(true);
+                            saveButtonHolder.setBackground(getResources().getDrawable(R.drawable.save_button_on));
+                        }
+                    }
+
+                } else {
+
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.no_data_point), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        //Register broadcast receiver to reset activity if any checkbox is selected
+        registerReceiver(resetSensorReadingReceiver, new IntentFilter(Constants.RESET_SENSOR_READING));
+
+        //Register broadcast receiver to print values on screen from BandSensorsSubscriptionLoader
+        registerReceiver(displayVaueReceiver, new IntentFilter(Constants.DISPLAY_VALUE));
+
+        //Register broadcast receiver to create csv file from BandConnectionService
+        //in case that MS band has been disconnected while recording data
+        registerReceiver(createCSVReceiver, new IntentFilter(Constants.CREATE_CSV_RECEIVER));
+
+        //Register broadcast receiver to reset activity if any checkbox is selected
+        registerReceiver(timeReceiver, new IntentFilter(getClass().getPackage() + ".BROADCAST"));
+
+        //Microsoft band 2 communication status textview
+        bandStatusTxt = (TextView) toolbar.findViewById(R.id.band_status);
 
     }
 
@@ -522,10 +516,16 @@ public class MainActivity extends AppCompatActivity {
 
         bandStatusTxt.setText(getResources().getString(R.string.select_option));
 
-        for (int i = 0; i < mListView.getChildCount(); i++) {
-            TextView sensorTextView = (TextView) mListView.getChildAt(i).findViewById(R.id.sensor_value);
-            sensorTextView.setText("");
+        for (SensorReading sr : sensorReadings) {
+            sensorReadings.get(sr.getSensorID() -1 ).setProgressBarStatus(false);
         }
+
+        mAdapter.notifyDataSetChanged();
+
+//        for (int i = 0; i < mListView.getChildCount(); i++) {
+//            TextView sensorTextView = (TextView) mListView.getChildAt(i).findViewById(R.id.sensor_value);
+//            sensorTextView.setText("");
+//        }
 
     }
 
@@ -537,7 +537,6 @@ public class MainActivity extends AppCompatActivity {
         //Unregister all BroadcastReceivers
         unregisterReceiver(resetSensorReadingReceiver);
         unregisterReceiver(displayVaueReceiver);
-        unregisterReceiver(sensorReadingObjectReceiver);
         unregisterReceiver(createCSVReceiver);
 
         try {
@@ -655,30 +654,12 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    private BroadcastReceiver sensorReadingObjectReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            SensorReading receivedSensor = intent.getParcelableExtra(Constants.SERVICE_EXTRA);
-
-            Log.w(LOG_TAG, "sensorReadingObjectReceiver : onReceive:  " + receivedSensor.getSensorName());
-
-            //values.add(receivedSensor);
-
-
-        }
-
-
-    };
 
 
     private BroadcastReceiver displayVaueReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-
-//            Log.v(LOG_TAG, "displayVaueReceiver: onReceive ");
 
             String sensor = intent.getStringExtra(Constants.SENSOR);
             String value = intent.getStringExtra(Constants.VALUE);

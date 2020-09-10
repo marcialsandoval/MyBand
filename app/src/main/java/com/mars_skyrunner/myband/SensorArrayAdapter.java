@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -49,6 +50,13 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
         TextView samplingRateTV = convertView.findViewById(R.id.sample_rate_display);
         final Spinner mSpinner = convertView.findViewById(R.id.sample_rate_spinner);
         LinearLayout container =  convertView.findViewById(R.id.sample_rate_spinner_container);
+        ProgressBar bar =  convertView.findViewById(R.id.progress_bar);
+
+        if(sensorReading.isProgressBarStatus()){
+            bar.setVisibility(View.VISIBLE);
+        }else{
+            bar.setVisibility(View.GONE);
+        }
 
         final CheckBox checkBox = convertView.findViewById(R.id.sensor_checkbox);
 

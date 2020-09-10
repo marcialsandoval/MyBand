@@ -22,6 +22,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorArrayAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorArrayAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorReading.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorReading.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorReadingView.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/sensor_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/sensor_view.xml" afterDir="false" />
     </list>
@@ -171,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599754596323</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="SensorArrayAdapter updated">
+      <created>1599761309353</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1599761309353</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -191,30 +199,36 @@
     <MESSAGE value="TEST ANDROID STUDIO COMMIT" />
     <MESSAGE value="Comments updated" />
     <MESSAGE value="SensorArrayAdapter implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="SensorArrayAdapter implemented" />
+    <MESSAGE value="SensorArrayAdapter updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="SensorArrayAdapter updated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorArrayAdapter.java</url>
-          <line>66</line>
+          <line>74</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorArrayAdapter.java</url>
-          <line>67</line>
+          <line>75</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorArrayAdapter.java</url>
-          <line>149</line>
+          <line>157</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/SensorArrayAdapter.java</url>
-          <line>147</line>
+          <line>155</line>
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/mars_skyrunner/myband/MainActivity.java</url>
+          <line>161</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

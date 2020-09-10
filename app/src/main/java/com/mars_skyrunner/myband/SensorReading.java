@@ -15,6 +15,16 @@ public class SensorReading  implements  Parcelable{
     long mSensorReadingTime;
     boolean checkboxStatus;
 
+    public boolean isProgressBarStatus() {
+        return progressBarStatus;
+    }
+
+    public void setProgressBarStatus(boolean progressBarStatus) {
+        this.progressBarStatus = progressBarStatus;
+    }
+
+    boolean progressBarStatus;
+
     public SensorReading(Context context, int sensorID, String sensorReading){
         mContext = context;
         mSensorID = sensorID;

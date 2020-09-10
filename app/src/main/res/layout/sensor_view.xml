@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:elevation="@dimen/cardview_default_elevation"
         android:orientation="horizontal"
         android:padding="16dp">
@@ -104,6 +103,20 @@
 
         </FrameLayout>
 
+
     </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_marginBottom="4dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:indeterminate="true"
+        android:indeterminateBehavior="repeat"
+        android:layout_width="match_parent"
+        android:layout_height="8dp">
+
+    </ProgressBar>
 
 </LinearLayout>
