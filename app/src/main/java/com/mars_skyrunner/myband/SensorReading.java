@@ -8,6 +8,13 @@ import java.text.SimpleDateFormat;
 
 public class SensorReading  implements  Parcelable{
 
+    String mSensorReadingRate;
+    int mSensorID;
+    String mSensorReading;
+    Context mContext;
+    long mSensorReadingTime;
+    boolean checkboxStatus;
+
     public SensorReading(Context context, int sensorID, String sensorReading){
         mContext = context;
         mSensorID = sensorID;
@@ -137,12 +144,6 @@ public class SensorReading  implements  Parcelable{
         return mSensorReadingRate;
     }
 
-    String mSensorReadingRate;
-    int mSensorID;
-    String mSensorReading;
-    Context mContext;
-    long mSensorReadingTime;
-
     public boolean isCheckboxStatus() {
         return checkboxStatus;
     }
@@ -150,9 +151,6 @@ public class SensorReading  implements  Parcelable{
     public void setCheckboxStatus(boolean checkboxStatus) {
         this.checkboxStatus = checkboxStatus;
     }
-
-    boolean checkboxStatus;
-
 
     public String getSensorReadingYear() {
 

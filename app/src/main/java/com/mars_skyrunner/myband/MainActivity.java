@@ -124,9 +124,6 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.sensor_list);
         initSensorListView();
 
-        //Register broadcast receiver to reset activity if any checkbox is selected
-        registerReceiver(changeSensorReadingsReceiver, new IntentFilter(Constants.CHANGED_SENSOR_READINGS));
-
 //
 //        mMainLayout = (LinearLayout) findViewById(R.id.main_layout);
 //        mLoadingView = (LinearLayout) findViewById(R.id.loading_layout);
@@ -346,89 +343,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    /**
-     * This method retrieves the SensorReadingView corresponding to the sensor data input in the argument.
-     *
-     * @param  sr SensorReading data of the sensor of interest.
-     * @return SensorReadingView of the sensor of interest.
-     */
-    private SensorReadingView getSensorReadingView(SensorReading sr) {
-
-        int resourceID = 0;
-
-        switch (sr.getSensorName()) {
-            case Constants.HEART_RATE_SENSOR_LABEL:
-                resourceID = R.id.heart_rate_sensorview;
-                break;
-
-            case Constants.RR_INTERVAL_SENSOR_LABEL:
-                resourceID = R.id.rr_interval_sensorview;
-                break;
-
-
-            case Constants.ACCELEROMETER_SENSOR_LABEL:
-                resourceID = R.id.accelerometer_sensorview;
-                break;
-
-            case Constants.ALTIMETER_SENSOR_LABEL:
-                resourceID = R.id.altimeter_sensorview;
-                break;
-
-            case Constants.AMBIENT_LIGHT_SENSOR_LABEL:
-                resourceID = R.id.ambient_light_sensorview;
-                break;
-
-            case Constants.BAROMETER_SENSOR_LABEL:
-                resourceID = R.id.barometer_sensorview;
-                break;
-
-            case Constants.GSR_SENSOR_LABEL:
-                resourceID = R.id.gsr_sensorview;
-                break;
-
-            case Constants.CALORIES_SENSOR_LABEL:
-                resourceID = R.id.calories_sensorview;
-                break;
-
-            case Constants.DISTANCE_SENSOR_LABEL:
-                resourceID = R.id.distance_sensorview;
-                break;
-
-            case Constants.BAND_CONTACT_SENSOR_LABEL:
-                resourceID = R.id.band_contact_sensorview;
-                break;
-
-            case Constants.GYROSCOPE_SENSOR_LABEL:
-                resourceID = R.id.gyroscope_sensorview;
-                break;
-
-            case Constants.PEDOMETER_SENSOR_LABEL:
-                resourceID = R.id.pedometer_sensorview;
-                break;
-
-            case Constants.SKIN_TEMPERATURE_SENSOR_LABEL:
-                resourceID = R.id.skin_temperature_sensorview;
-                break;
-
-            case Constants.UV_LEVEL_SENSOR_LABEL:
-                resourceID = R.id.uv_sensorview;
-                break;
-
-            default:
-                resourceID = 0;
-                break;
-        }
-
-        SensorReadingView sensorReadingView = null;
-
-        if (resourceID != 0) {
-            sensorReadingView = (SensorReadingView) findViewById(resourceID);
-        }
-
-        return sensorReadingView;
-    }
-
     /**
      * This method initializes the ListView where the Sensors of interest are going to be selected.
      * First, it creates the ArrayList<SensorReading> that the ListView is going to be populated with, and then
@@ -625,7 +539,6 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(displayVaueReceiver);
         unregisterReceiver(sensorReadingObjectReceiver);
         unregisterReceiver(createCSVReceiver);
-        unregisterReceiver(changeSensorReadingsReceiver);
 
         try {
             unregisterSensorListeners();
@@ -668,18 +581,6 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             stopButtonClicked();
-
-        }
-
-
-    };
-
-    private BroadcastReceiver changeSensorReadingsReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-          mAdapter.notifyDataSetChanged();
 
         }
 
@@ -1869,102 +1770,10 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < sensorReadings.size(); i++) {
 
-            SensorReadingView sensorView = (SensorReadingView) mListView.getChildAt(i);
-            boolean check = sensorView.getSensorCheckBox().isChecked();
+            boolean check = sensorReadings.get(i).isCheckboxStatus();
 
             if(check){
-
-                int sensorID = 0;
-
-                switch (sensorView.getId()) {
-
-                    case R.id.heart_rate_sensorview:
-
-                        sensorID =  Constants.HEART_RATE_SENSOR_ID;
-
-                        break;
-
-                    case R.id.rr_interval_sensorview:
-
-                        sensorID = Constants.RR_INTERVAL_SENSOR_ID;
-
-                        break;
-
-                    case R.id.accelerometer_sensorview:
-
-                        sensorID =  Constants.ACCELEROMETER_SENSOR_ID;
-
-                        break;
-
-                    case R.id.altimeter_sensorview:
-
-                        sensorID =  Constants.ALTIMETER_SENSOR_ID;
-
-                        break;
-
-                    case R.id.ambient_light_sensorview:
-
-                        sensorID =  Constants.AMBIENT_LIGHT_SENSOR_ID;
-
-                        break;
-
-                    case R.id.barometer_sensorview:
-
-                        sensorID =  Constants.BAROMETER_SENSOR_ID;
-
-                        break;
-
-                    case R.id.gsr_sensorview:
-
-                        sensorID =  Constants.GSR_SENSOR_ID;
-
-                        break;
-
-                    case R.id.calories_sensorview:
-
-                        sensorID =  Constants.CALORIES_SENSOR_ID;
-
-                        break;
-
-                    case R.id.distance_sensorview:
-
-                        sensorID =  Constants.DISTANCE_SENSOR_ID;
-
-                        break;
-
-                    case R.id.band_contact_sensorview:
-
-                        sensorID =  Constants.BAND_CONTACT_SENSOR_ID;
-
-                        break;
-
-                    case R.id.gyroscope_sensorview:
-
-                        sensorID =  Constants.GYROSCOPE_SENSOR_ID;
-
-                        break;
-
-                    case R.id.pedometer_sensorview:
-
-                        sensorID =  Constants.PEDOMETER_SENSOR_ID;
-
-                        break;
-
-                    case R.id.skin_temperature_sensorview:
-
-                        sensorID =  Constants.SKIN_TEMPERATURE_SENSOR_ID;
-                        break;
-
-                    case R.id.uv_sensorview:
-
-                        sensorID =  Constants.UV_LEVEL_SENSOR_ID;
-
-                        break;
-
-                }
-
-                result.add(sensorID);
-
+                result.add(sensorReadings.get(i).getSensorID());
             }
 
         }
