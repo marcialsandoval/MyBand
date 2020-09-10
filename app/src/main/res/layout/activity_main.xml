@@ -33,16 +33,16 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_weight="1"
-                        android:visibility="visible"
                         android:id="@+id/band_status"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:text="@string/select_option"
                         android:textColor="@android:color/white"
                         android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="visible" />
 
                     <TextView
                         android:id="@+id/minutes"
@@ -53,7 +53,6 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-
 
                     <FrameLayout
                         android:id="@+id/save_button_holder"
@@ -74,7 +73,7 @@
                             android:src="@drawable/ic_settings_white"
                             android:layout_gravity="center"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />togglebutton
+                            android:layout_height="match_parent" />
 
 
                     </FrameLayout>
@@ -86,15 +85,14 @@
         </android.support.design.widget.AppBarLayout>
 
 
-
         <LinearLayout
+            android:layout_marginBottom="36dp"
             android:id="@+id/main_layout"
             android:visibility="visible"
             android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
 
             <ListView
                 android:id="@+id/sensor_list"
@@ -106,24 +104,17 @@
 
             <FrameLayout
                 android:id="@+id/toggle_button_holder"
-                android:background="@drawable/toggle_button_on_background"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_alignParentBottom="true">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <ToggleButton
                     android:id="@+id/togglebutton"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:textColor="@android:color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="start">
 
+                </ToggleButton>
             </FrameLayout>
-
 
         </LinearLayout>
 
@@ -164,8 +155,23 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
 
+    <FrameLayout
+        android:background="@color/colorAccentLight"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="36dp">
+    </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_check_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 
 </RelativeLayout>
