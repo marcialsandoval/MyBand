@@ -1,158 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_weight="1"
-                    android:visibility="visible"
-                    android:id="@+id/band_status"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/select_option"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/minutes"
-                    android:text=""
-                    android:textColor="@color/colorToggleOffDark"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
-                <FrameLayout
-                    android:id="@+id/save_button_holder"
-                    android:background="@drawable/save_button_off"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp">
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:background="@drawable/save_button_off"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp">
-
-                    <ImageButton
-                        android:background="?android:attr/selectableItemBackground"
-                        android:id="@+id/settigs_imagebutton"
-                        android:src="@drawable/ic_settings_white"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />togglebutton
-
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
-
-
-
     <LinearLayout
-        android:id="@+id/main_layout"
         android:visibility="visible"
-        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <ListView
-            android:id="@+id/sensor_list"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-        </ListView>
-
-        <FrameLayout
-            android:id="@+id/toggle_button_holder"
-            android:background="@drawable/toggle_button_on_background"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_alignParentBottom="true">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <ToggleButton
-                android:id="@+id/togglebutton"
-                android:background="?android:attr/selectableItemBackground"
-                android:textColor="@android:color/white"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme">
 
-        </FrameLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:visibility="visible"
+                        android:id="@+id/band_status"
+                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/select_option"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/minutes"
+                        android:text=""
+                        android:textColor="@color/colorToggleOffDark"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
 
-    </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/save_button_holder"
+                        android:background="@drawable/save_button_off"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp">
 
-    <LinearLayout
-        android:id="@+id/loading_layout"
-        android:visibility="gone"
-        android:background="@android:color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+                    </FrameLayout>
 
-        <RelativeLayout
+                    <FrameLayout
+                        android:background="@drawable/save_button_off"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp">
+
+                        <ImageButton
+                            android:background="?android:attr/selectableItemBackground"
+                            android:id="@+id/settigs_imagebutton"
+                            android:src="@drawable/ic_settings_white"
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />togglebutton
+
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/main_layout"
+            android:visibility="visible"
+            android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ListView
+                android:id="@+id/sensor_list"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            </ListView>
+
+            <FrameLayout
+                android:id="@+id/toggle_button_holder"
+                android:background="@drawable/toggle_button_on_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_alignParentBottom="true">
+
+                <ToggleButton
+                    android:id="@+id/togglebutton"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:textColor="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loading_layout"
+            android:visibility="visible"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <ImageView
+                android:layout_weight="1"
                 android:layout_centerInParent="true"
-                android:src="@drawable/uabc_logo"
-                android:layout_width="150dp"
-                android:layout_height="150dp" />
+                android:src="@drawable/myband_launcher"
+                android:scaleType="centerInside"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
 
+            <TextView
+                style="@style/PrimaryTextListItem"
+                android:text="loading..."
+                android:padding="8dp"
+                android:layout_gravity="center_horizontal"></TextView>
 
             <ProgressBar
-
-                style="@android:style/Widget.Holo.Light.ProgressBar.Small"
+                android:id="@+id/progress_bar"
+                android:visibility="visible"
+                android:layout_marginBottom="4dp"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:indeterminate="true"
+                android:indeterminateBehavior="repeat"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fadingEdgeLength="10dp"
-                android:indeterminateTint="@color/colorAccent" />
+                android:layout_height="8dp">
 
-        </RelativeLayout>
+            </ProgressBar>
 
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+
+
+</RelativeLayout>
