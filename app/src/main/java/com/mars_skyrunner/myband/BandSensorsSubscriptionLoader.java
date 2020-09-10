@@ -121,12 +121,11 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
         if (heartRateChecked || rrIntervalChecked) {
             if (!(client.getSensorManager().getCurrentHeartRateConsent() == UserConsent.GRANTED)) {
-                Log.v(LOG_TAG, "UserConsent NOT GRANTED");
+
                 ConsentDialog dialog = new ConsentDialog(mContext);
                 dialog.show();
-            } else {
-                Log.v(LOG_TAG, "UserConsent.GRANTED");
             }
+
         }
     }
 
@@ -151,10 +150,11 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                 Intent sendObjectIntent = new Intent(mContext, BandConnectionService.class);
                 mContext.startService(sendObjectIntent);
 
-
+                //Checks if heart rate sensor data is selected
                 if (sensorReadings.get(Constants.HEART_RATE_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     heartRateChecked = true;
+
                     if (client.getSensorManager().getCurrentHeartRateConsent() == UserConsent.GRANTED) {
                         try {
                             client.getSensorManager().registerHeartRateEventListener(mHeartRateEventListener);
@@ -165,9 +165,11 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if heart rate interval data is selected
                 if (sensorReadings.get(Constants.RR_INTERVAL_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     rrIntervalChecked = true;
+
                     if (client.getSensorManager().getCurrentHeartRateConsent() == UserConsent.GRANTED) {
                         try {
                             client.getSensorManager().registerRRIntervalEventListener(mRRIntervalEventListener);
@@ -181,6 +183,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
                 }
 
+                //Checks if accelerometer sensor data is selected
                 if (sensorReadings.get(Constants.ACCELEROMETER_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
 
@@ -200,6 +203,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if altimeter sensor data is selected
                 if (sensorReadings.get(Constants.ALTIMETER_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     try {
@@ -210,6 +214,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if ambient light sensor data is selected
                 if (sensorReadings.get(Constants.AMBIENT_LIGHT_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerAmbientLightEventListener(mAmbientLightEventListener);
@@ -219,6 +224,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if barometer sensor data is selected
                 if (sensorReadings.get(Constants.BAROMETER_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     try {
@@ -230,6 +236,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                 }
 
 
+                //Checks if gsr sensor data is selected
                 if (sensorReadings.get(Constants.GSR_SENSOR_ID - 1).isCheckboxStatus()) {
 
                     try {
@@ -243,7 +250,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
-
+                //Checks if calories sensor data is selected
                 if (sensorReadings.get(Constants.CALORIES_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerCaloriesEventListener(mCaloriesEventListener);
@@ -253,6 +260,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if band contact sensor data is selected
                 if (sensorReadings.get(Constants.BAND_CONTACT_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerContactEventListener(mContactEventListener);
@@ -263,6 +271,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
                 }
 
+                //Checks if distance sensor data is selected
                 if (sensorReadings.get(Constants.DISTANCE_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerDistanceEventListener(mDistanceEventListener);
@@ -272,6 +281,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if gyroscope sensor data is selected
                 if (sensorReadings.get(Constants.GYROSCOPE_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
 
@@ -285,6 +295,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if pedometer sensor data is selected
                 if (sensorReadings.get(Constants.PEDOMETER_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerPedometerEventListener(mPedometerEventListener);
@@ -294,6 +305,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if skin temperature sensor data is selected
                 if (sensorReadings.get(Constants.SKIN_TEMPERATURE_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerSkinTemperatureEventListener(mSkinTemperatureListener);
@@ -303,6 +315,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
                     }
                 }
 
+                //Checks if uv light exposure sensor data is selected
                 if (sensorReadings.get(Constants.UV_LEVEL_SENSOR_ID - 1).isCheckboxStatus()) {
                     try {
                         client.getSensorManager().registerUVEventListener(mUVEventListener);

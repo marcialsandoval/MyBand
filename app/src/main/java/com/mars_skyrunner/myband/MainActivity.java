@@ -691,7 +691,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Loader<ConnectionState> onCreateLoader(int i, Bundle bundle) {
 
-            Log.v(LOG_TAG, "bandSensorSubscriptionLoader: onCreateLoader");
 
             showLoadingView(true);
 
@@ -701,10 +700,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLoadFinished(Loader<ConnectionState> loader, ConnectionState cs) {
 
-            Log.v(LOG_TAG, "bandSensorSubscriptionLoader: onLoadFinished ");
-
             showLoadingView(false);
-
 
             getLoaderManager().destroyLoader(loader.getId());
 
