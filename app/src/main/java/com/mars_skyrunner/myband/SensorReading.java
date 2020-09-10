@@ -151,7 +151,7 @@ public class SensorReading  implements  Parcelable{
         this.checkboxStatus = checkboxStatus;
     }
 
-    boolean checkboxStatus = false;
+    boolean checkboxStatus;
 
 
     public String getSensorReadingYear() {

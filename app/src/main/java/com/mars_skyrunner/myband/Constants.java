@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Constants {
 
 
+    public static final String CHANGED_SENSOR_READINGS = "com.mars_skyrunner.myband.CHANGED_SENSOR_READINGS";
     private static final String packageName = "com.mars_skyrunner.myband";
 
     public static final int SAVE_DATAPOINT_LOADER = 100;
@@ -31,9 +32,6 @@ public class Constants {
     public static final String AMBIENT_LIGHT = "com.mars_skyrunner.myband.AMBIENT_LIGHT";
     public static final String DISTANCE = "com.mars_skyrunner.myband.DISTANCE";
 
-
-
-
     public static final int HEART_RATE_AQUIRING = 1;
     public static final int HEART_RATE_LOCKED = 2;
 
@@ -51,12 +49,7 @@ public class Constants {
     public static final int SKIN_TEMPERATURE_SENSOR_ID = 12;
     public static final int UV_LEVEL_SENSOR_ID = 13;
     public static final int BAND_CONTACT_SENSOR_ID = 14;
-
-
-
-
     public static final int BAND_STATUS_SENSOR_ID = 15;
-
 
     public static final String HEART_RATE_SENSOR_LABEL =  "Heart rate";
     public static final String RR_INTERVAL_SENSOR_LABEL = "RR interval";
@@ -73,8 +66,6 @@ public class Constants {
     public static final String SKIN_TEMPERATURE_SENSOR_LABEL = "Skin Temperature";
     public static final String UV_LEVEL_SENSOR_LABEL = "UV";
     public static final String BAND_STATUS_SENSOR_LABEL = "Status";
-
-
 
     public static final String SENSOR = packageName + ".SENSOR";
     public static final String VALUE = packageName + ".VALUE";

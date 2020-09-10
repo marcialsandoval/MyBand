@@ -2,6 +2,7 @@ package com.mars_skyrunner.myband;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -9,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mars_skyrunner.myband.MainActivity.sensorReadings;
@@ -17,14 +19,15 @@ import static com.mars_skyrunner.myband.MainActivity.sensorReadings;
 public class SensorArrayAdapter  extends ArrayAdapter<SensorReading> {
 
     private static final String LOG_TAG = SensorArrayAdapter.class.getSimpleName();
-    Context context;
+    Context mContext;
     int mResource;
-
+    ArrayList<SensorReading> inputDataset;
 
     public SensorArrayAdapter(Context context, int resource, List<SensorReading> objects) {
         super(context, resource, objects);
-        this.context = context;
+        mContext = context;
         mResource = resource;
+        inputDataset = (ArrayList<SensorReading>) objects;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class SensorArrayAdapter  extends ArrayAdapter<SensorReading> {
 
         TextView name = convertView.findViewById(R.id.sensor_name);
         TextView id = convertView.findViewById(R.id.sensor_id);
-        CheckBox checkBox = convertView.findViewById(R.id.sensor_checkbox);
+        final CheckBox checkBox = convertView.findViewById(R.id.sensor_checkbox);
 
         name.setText(sensorReading.getSensorName());
         id.setText(sensorReading.getSensorID() + "");
@@ -49,11 +52,15 @@ public class SensorArrayAdapter  extends ArrayAdapter<SensorReading> {
             checkBox.setChecked(false);
         }
 
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                sensorReadings.get(position).setCheckboxStatus(b);
-                notifyDataSetChanged();
+            public void onClick(View view) {
+                boolean b = checkBox.isChecked();
+                sensorReadings.get(sensorReading.getSensorID() - 1).setCheckboxStatus(b);
+
+                Intent appendToUiIntent = new Intent(Constants.CHANGED_SENSOR_READINGS);
+                appendToUiIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                mContext.sendBroadcast(appendToUiIntent);
             }
         });
 

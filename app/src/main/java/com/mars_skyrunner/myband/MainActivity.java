@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Long> sampleTimeStamps;
     int sampleTimeStampsIterator;
     public static long TIMER_DURATION = 4;
+    private SensorArrayAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
         //Initializes global variables
         mListView = (ListView) findViewById(R.id.sensor_list);
         initSensorListView();
+
+        //Register broadcast receiver to reset activity if any checkbox is selected
+        registerReceiver(changeSensorReadingsReceiver, new IntentFilter(Constants.CHANGED_SENSOR_READINGS));
+
 //
 //        mMainLayout = (LinearLayout) findViewById(R.id.main_layout);
 //        mLoadingView = (LinearLayout) findViewById(R.id.loading_layout);
@@ -450,8 +455,9 @@ public class MainActivity extends AppCompatActivity {
 
         assert mListView != null;
 
-        SensorArrayAdapter adapter = new SensorArrayAdapter(this, R.layout.sensor_view, sensorReadings);
-        mListView.setAdapter(adapter);
+        mAdapter = new SensorArrayAdapter(this, R.layout.sensor_view, sensorReadings);
+        mListView.setAdapter(mAdapter);
+
 
     }
 
@@ -619,6 +625,7 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(displayVaueReceiver);
         unregisterReceiver(sensorReadingObjectReceiver);
         unregisterReceiver(createCSVReceiver);
+        unregisterReceiver(changeSensorReadingsReceiver);
 
         try {
             unregisterSensorListeners();
@@ -661,6 +668,18 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             stopButtonClicked();
+
+        }
+
+
+    };
+
+    private BroadcastReceiver changeSensorReadingsReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+          mAdapter.notifyDataSetChanged();
 
         }
 
