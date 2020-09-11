@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialog;
@@ -81,15 +82,14 @@ public class MainActivity extends AppCompatActivity {
     Date date;
     long timeBasedCSVDate = 0;
     public static boolean bandSubscriptionTaskRunning = false;
-    TextView clock ;
+    TextView clock;
     public static SaveButton saveDataButton;
     FutureTask task = null;
     boolean saveClicked = false;
     FrameLayout holder, saveButtonHolder;
-    ToggleButton toggle;
     ImageButton settingsButton;
     ArrayList<SensorReading> values = new ArrayList<SensorReading>();
-    String  fileNameExtension = ".csv";
+    String fileNameExtension = ".csv";
     String displayDate;
     public static String labelPrefix = "";
     String filename;
@@ -103,13 +103,14 @@ public class MainActivity extends AppCompatActivity {
     public static long TIMER_DURATION = 4;
     private SensorArrayAdapter mAdapter;
 
+    FloatingActionButton startFab;
+    FloatingActionButton stopFab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_main);
-
-
 
         //Permanent storage of the preferred output csv file format
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -148,48 +149,47 @@ public class MainActivity extends AppCompatActivity {
         saveDataButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_system_update_alt_white_24dp));
         saveButtonHolder.addView(saveDataButton);
 
+        startFab = (FloatingActionButton) findViewById(R.id.start_fab);
+        stopFab = (FloatingActionButton) findViewById(R.id.stop_fab);
+        resetFabs();
 
-        toggle = (ToggleButton) findViewById(R.id.togglebutton);// 'Start' Button
-        toggle.setTextOff(getResources().getString(R.string.start));
-        toggle.setTextOn(getResources().getString(R.string.stop));
-        toggle.setChecked(false);
+        startFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        holder = (FrameLayout) findViewById(R.id.toggle_button_holder); //Dynamic FrameLayout that turns red when sensor recording is being made
+                startFab.hide();
+                stopFab.show();
 
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                restoreActivity();
 
-                if (isChecked) {
+                if (!bandSubscriptionTaskRunning) {
 
-                    // The toggle is enabled
-                    holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_off_background));
-                    restoreActivity();
-
-                    if (!bandSubscriptionTaskRunning) {
-
-                        // Kick off the  loader
-                        getLoaderManager().restartLoader(Constants.BAND_SUSCRIPTION_LOADER, null, bandSensorSubscriptionLoader);
-
-                    }
-
-
-                } else {
-                    // The toggle is disabled
-                    bandSubscriptionTaskRunning = false;
-                    holder.setBackground(getResources().getDrawable(R.drawable.toggle_button_on_background));
-
-                    if(task != null ){
-
-                        task.cancel(true);
-
-                    }
-
-                    resetTimer();
-                    resetSaveDataButton();
-                    restoreActivity();
-                    disconnectBand();
+                    // Kick off the  loader
+                    getLoaderManager().restartLoader(Constants.BAND_SUSCRIPTION_LOADER, null, bandSensorSubscriptionLoader);
 
                 }
+
+            }
+        });
+
+        stopFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                resetFabs();
+                bandSubscriptionTaskRunning = false;
+
+                if (task != null) {
+                    task.cancel(true);
+
+                }
+
+                resetTimer();
+                resetSaveDataButton();
+                restoreActivity();
+                disconnectBand();
+
+
             }
         });
 
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (sr.isCheckboxStatus()) {
                             sensorSelected = true;
-                            sensorReadings.get(sr.getSensorID() -1 ).setProgressBarStatus(true);
+                            sensorReadings.get(sr.getSensorID() - 1).setProgressBarStatus(true);
                             mAdapter.notifyDataSetChanged();
                         }
                     }
@@ -279,9 +279,9 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method retrieves the output file from root storage directory of the MyBand app
      *
-     * @param dir root storage directory of the MyBand app
-     * @param  samplingRate If 'Frequency based' output csv file option is selected, this sampling rate label is going to be
-     *                      attached to the output files label.
+     * @param dir          root storage directory of the MyBand app
+     * @param samplingRate If 'Frequency based' output csv file option is selected, this sampling rate label is going to be
+     *                     attached to the output files label.
      * @return File Containing the output csv files path.
      */
     private File getCsvOutputFile(File dir, String samplingRate) {
@@ -377,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
         bandSubscriptionTaskRunning = false;
 
         resetSaveDataButton();
-        resetToggleButton();
+        resetFabs();
         restoreActivity();
         disconnectBand();
     }
@@ -394,17 +394,18 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method restores the toggle buttons' default state.
      */
-    private void resetToggleButton() {
+    private void resetFabs() {
 
-        toggle.setChecked(false);
+        startFab.show();
+        stopFab.hide();
 
     }
 
     /**
      * This method display a message on the desired textview defined by the requestCode.
-     * @param  message Message to be displayed
-     * @param  requestCode Textviews unique id on which the message is going to be displayed.
      *
+     * @param message     Message to be displayed
+     * @param requestCode Textviews unique id on which the message is going to be displayed.
      */
     private void appendToUI(final String message, String requestCode) {
 
@@ -502,7 +503,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (bandSubscriptionTaskRunning) {
 
-            toggle.setChecked(true);
+            startFab.show();
+            stopFab.hide();
 
         }
 
@@ -510,14 +512,13 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This method restores activity to its default values.
-     *
      */
     private void restoreActivity() {
 
         bandStatusTxt.setText(getResources().getString(R.string.select_option));
 
         for (SensorReading sr : sensorReadings) {
-            sensorReadings.get(sr.getSensorID() -1 ).setProgressBarStatus(false);
+            sensorReadings.get(sr.getSensorID() - 1).setProgressBarStatus(false);
         }
 
         mAdapter.notifyDataSetChanged();
@@ -587,7 +588,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-
     private BroadcastReceiver timeReceiver = new BroadcastReceiver() {
 
         @Override
@@ -596,11 +596,9 @@ public class MainActivity extends AppCompatActivity {
             long seconds = intent.getExtras().getLong(getClass().getPackage() + ".TIME");
             clock.setText("" + (TIMER_DURATION - seconds));
 
-
             Log.v(LOG_TAG, " timeReceiver seconds: " + seconds);
 
-            if(seconds == TIMER_DURATION){
-
+            if (seconds == TIMER_DURATION) {
 
                 csvFileCounter = Constants.SAMPLE_RATE_OPTIONS.length - 1;
 
@@ -611,12 +609,13 @@ public class MainActivity extends AppCompatActivity {
 
                     // Kick off saveDataCursorLoader
 
-                    resetToggleButton();
+                    resetFabs();
                     resetTimer();
+                    resetSaveDataButton();
+                    restoreActivity();
 
                     Bundle extraBundle = new Bundle();
                     extraBundle.putLong(Constants.SENSOR_TIME, timeBasedCSVDate);
-
 
                     getLoaderManager().restartLoader(Constants.CREATE_CSV_LOADER, extraBundle, saveDataCursorLoader);
 
@@ -654,8 +653,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-
-
     private BroadcastReceiver displayVaueReceiver = new BroadcastReceiver() {
 
         @Override
@@ -668,7 +665,7 @@ public class MainActivity extends AppCompatActivity {
             Log.v(LOG_TAG, "displayVaueReceiver: value: " + value);
 
             //TODO: TEST COMMENTED
-           // appendToUI(value, sensor);
+            // appendToUI(value, sensor);
 
         }
 
@@ -752,7 +749,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!cs.equals(ConnectionState.CONNECTED)) {
                     Log.v(LOG_TAG, "ConnectionState != CONNECTED");
-                    resetToggleButton();
+                    resetFabs();
                     appendToUI(userMsg, Constants.BAND_STATUS);
 
                 } else {
@@ -766,7 +763,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 //Band isnt paired with phone
-                resetToggleButton();
+                resetFabs();
                 appendToUI("Band isn't paired with your phone.", Constants.BAND_STATUS);
                 Log.v(LOG_TAG, "cs == null");
                 Log.v(LOG_TAG, "Band isn't paired with your phone.");
@@ -800,7 +797,7 @@ public class MainActivity extends AppCompatActivity {
 
                 case 0:
 
-                    Log.v(LOG_TAG,"FREQUENCY BASED CSV");
+                    Log.v(LOG_TAG, "FREQUENCY BASED CSV");
 
                     // Define a projection that specifies the columns from the table we care about.
                     String[] projection = {
@@ -837,7 +834,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
 
 
-                    Log.v(LOG_TAG,"TIME BASED CSV");
+                    Log.v(LOG_TAG, "TIME BASED CSV");
 
                     // Define a projection that specifies the columns from the table we care about.
                     String[] projection2 = {
@@ -870,7 +867,7 @@ public class MainActivity extends AppCompatActivity {
 
                 case 2:
 
-                    Log.v(LOG_TAG,"SAMPLE BASED CSV");
+                    Log.v(LOG_TAG, "SAMPLE BASED CSV");
 
                     // Define a projection that specifies the columns from the table we care about.
                     String[] projection3 = {
@@ -946,21 +943,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     c.moveToFirst();
 
-//                            for (int i = 0; i < colcount; i++) {
-//
-//                                if (i != (colcount - 1)) {
-//
-//                                    bw.write(c.getColumnName(i) + ",");
-//
-//                                } else {
-//
-//                                    bw.write(c.getColumnName(i));
-//
-//                                }
-//                            }
-
-//                            bw.newLine();
-
                                     for (int i = 0; i < rowcount; i++) {
 
                                         c.moveToPosition(i);
@@ -974,21 +956,7 @@ public class MainActivity extends AppCompatActivity {
 
                                             if (j == 1) { //Time column
 
-                                                //TODO: TEST CODE
-
                                                 cellValue = "" + (Long.parseLong(cellValue.trim()) - timeBasedCSVDate);
-
-//                                                long time = Long.parseLong(cellValue.trim());
-//
-//                                                String year = new SimpleDateFormat("yyyy").format(time);
-//                                                String month = new SimpleDateFormat("MM").format(time);
-//                                                String day = new SimpleDateFormat("dd").format(time);
-//                                                String hour = new SimpleDateFormat("HH").format(time);
-//                                                String minute = new SimpleDateFormat("mm").format(time);
-//                                                String sec = new SimpleDateFormat("ss").format(time);
-//
-//                                                cellValue = year + "," + month + "," + day + "," + hour + "," + minute + "," + sec;
-//
                                             }
 
                                             if (j != (colcount - 1)) {
@@ -1096,18 +1064,6 @@ public class MainActivity extends AppCompatActivity {
 
                                             if (j == 1) { //Time column
                                                 cellValue = "" + (Long.parseLong(cellValue.trim()) - timeBasedCSVDate);
-
-//                                                long time = Long.parseLong(cellValue.trim());
-//
-//                                                String year = new SimpleDateFormat("yyyy").format(time);
-//                                                String month = new SimpleDateFormat("MM").format(time);
-//                                                String day = new SimpleDateFormat("dd").format(time);
-//                                                String hour = new SimpleDateFormat("HH").format(time);
-//                                                String minute = new SimpleDateFormat("mm").format(time);
-//                                                String sec = new SimpleDateFormat("ss").format(time);
-//
-//                                                cellValue = year + "," + month + "," + day + "," + hour + "," + minute + "," + sec;
-//
                                             }
 
                                             if (j != (colcount - 1)) {
@@ -1136,27 +1092,23 @@ public class MainActivity extends AppCompatActivity {
                                     //newest values
                                     values.clear();
 
-
                                     //Save datapoint loader destroyed, so that if user comes back from
                                     //CSV file viewer, it does not create a new one
                                     getLoaderManager().destroyLoader(Constants.CREATE_CSV_LOADER);
 
-
                                     showLoadingView(false);
+
                                     //shows "OPEN CSV" action on a snackbar
-                                        Snackbar mySnackbar = Snackbar.make(mMainLayout,
-                                            "Files saved at" + outputDirectory.getAbsolutePath().toString(), Snackbar.LENGTH_LONG);
-                                    //mySnackbar.setAction(R.string.open, new OpenCSVFileListener());
+                                    Snackbar mySnackbar = Snackbar.make(mMainLayout,
+                                            "Files saved at" + outputDirectory.getAbsolutePath(), Snackbar.LENGTH_LONG);
                                     mySnackbar.show();
 
 
-                                }
-
-                                else{
+                                } else {
                                     //Save datapoint loader destroyed, so that if user comes back from
                                     //CSV file viewer, it does not create a new one
                                     getLoaderManager().destroyLoader(Constants.CREATE_CSV_LOADER);
-                                    Toast.makeText(MainActivity.this,"No records to export CSV",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "No records to export CSV", Toast.LENGTH_SHORT).show();
                                 }
 
 
@@ -1188,7 +1140,7 @@ public class MainActivity extends AppCompatActivity {
                                     String maxSampleRate = c.getString(0).trim();
                                     String maxSampleRateSensorID = c.getString(1).trim();
 
-                                    Log.v(LOG_TAG,"Max Sample Rate Sensor ID : " + maxSampleRateSensorID);
+                                    Log.v(LOG_TAG, "Max Sample Rate Sensor ID : " + maxSampleRateSensorID);
 
                                     Bundle bundle = new Bundle();
                                     bundle.putString("maxSampleRate", maxSampleRate);
@@ -1202,11 +1154,11 @@ public class MainActivity extends AppCompatActivity {
                                     //CSV file viewer, it does not create a new one
                                     getLoaderManager().destroyLoader(Constants.CREATE_CSV_LOADER);
 
-                                } else{
+                                } else {
                                     //Save datapoint loader destroyed, so that if user comes back from
                                     //CSV file viewer, it does not create a new one
                                     getLoaderManager().destroyLoader(Constants.CREATE_CSV_LOADER);
-                                    Toast.makeText(MainActivity.this,"No records to export CSV",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "No records to export CSV", Toast.LENGTH_SHORT).show();
                                 }
 
                             } catch (Exception e) {
@@ -1312,8 +1264,8 @@ public class MainActivity extends AppCompatActivity {
 
             timeStampReference = sampleTimeStamps.get(0);
 
-            for (int i= 0; i< sampleTimeStamps.size();i++){
-                Log.v(LOG_TAG,"CSV TIME STAMP: " + (sampleTimeStamps.get(i) - timeStampReference));
+            for (int i = 0; i < sampleTimeStamps.size(); i++) {
+                Log.v(LOG_TAG, "CSV TIME STAMP: " + (sampleTimeStamps.get(i) - timeStampReference));
             }
 
             long minTime = sampleTimeStamps.get(0);
@@ -1328,9 +1280,7 @@ public class MainActivity extends AppCompatActivity {
             bundle.putLong("maxTime", maxTime);
 
 
-
-
-          // Kick off the  loader
+            // Kick off the  loader
             getLoaderManager().restartLoader(Constants.TIME_STAMP_SENSOR_READING_LOADER, bundle, timeStampSensorReadingLoader);
 
             //Save datapoint loader destroyed, so that if user comes back from
@@ -1358,8 +1308,8 @@ public class MainActivity extends AppCompatActivity {
             long minTime = bundle.getLong("minTime");
             long maxTime = bundle.getLong("maxTime");
 
-            Log.v(LOG_TAG,"timeStampSensorReadingLoader: minTime: " + minTime);
-            Log.v(LOG_TAG,"timeStampSensorReadingLoader: maxTime: " + maxTime);
+            Log.v(LOG_TAG, "timeStampSensorReadingLoader: minTime: " + minTime);
+            Log.v(LOG_TAG, "timeStampSensorReadingLoader: maxTime: " + maxTime);
 
             if (minTime != maxTime) {
 
@@ -1388,7 +1338,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            return  null;
+            return null;
 
 
         }
@@ -1421,19 +1371,19 @@ public class MainActivity extends AppCompatActivity {
 
                 if (rowcount > 0) {
 
-                    sensorReadings = getSensorReadings(c , selectedSensorID);
+                    sensorReadings = getSensorReadings(c, selectedSensorID);
                     String values = "";
 
-                    for (int i = 0 ; i < selectedSensorID.size() ; i++){
+                    for (int i = 0; i < selectedSensorID.size(); i++) {
 
                         values += sensorReadings[i] + ",";
 //                        values += sensorReadings[i];
 
                     }
 
-                    int classLabel = 100 ;
+                    int classLabel = 100;
 
-                    switch (MainActivity.labelPrefix){
+                    switch (MainActivity.labelPrefix) {
 
                         case "up_":
                             classLabel = 0;
@@ -1456,8 +1406,8 @@ public class MainActivity extends AppCompatActivity {
 
                     String sample = classLabel + "," + (Long.parseLong(timeStamp.trim()) - timeStampReference) + "," + values;
 
-                    Log.v(LOG_TAG,"timeStampSensorReadingLoader sample:  "  + sampleTimeStampsIterator );
-                    Log.v(LOG_TAG,"sample:  "  + sample );
+                    Log.v(LOG_TAG, "timeStampSensorReadingLoader sample:  " + sampleTimeStampsIterator);
+                    Log.v(LOG_TAG, "sample:  " + sample);
 
                     sampleDataset.add(sample);
 
@@ -1475,7 +1425,7 @@ public class MainActivity extends AppCompatActivity {
 
             sampleTimeStampsIterator++;
 
-            if(sampleTimeStampsIterator == (sampleTimeStamps.size() - 1)){
+            if (sampleTimeStampsIterator == (sampleTimeStamps.size() - 1)) {
 
                 sampleTimeStampsIterator = 0;
                 createSampleBasedCSV(header);
@@ -1483,7 +1433,7 @@ public class MainActivity extends AppCompatActivity {
                 //CSV file viewer, it does not create a new one
                 getLoaderManager().destroyLoader(Constants.TIME_STAMP_SENSOR_READING_LOADER);
 
-         }else{
+            } else {
 
                 long minTime = sampleTimeStamps.get(sampleTimeStampsIterator);
                 long maxTime;
@@ -1501,8 +1451,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-
-
         }
 
         @Override
@@ -1514,18 +1462,18 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private String getColumnsLabelsHeader(ArrayList<Integer> selectedSensorID) {
-        
-        String result = ""; 
-        
-        for(Integer sensorID : selectedSensorID){
-            
-            result += getSensorHeader(sensorID) ;
+
+        String result = "";
+
+        for (Integer sensorID : selectedSensorID) {
+
+            result += getSensorHeader(sensorID);
             result += ",";
-            
+
         }
 
-        result = result.substring(0,(result.length() - 1 )); // takes the last comma off
-        
+        result = result.substring(0, (result.length() - 1)); // takes the last comma off
+
         return result;
     }
 
@@ -1536,7 +1484,7 @@ public class MainActivity extends AppCompatActivity {
         switch (sensorID) {
 
             case Constants.HEART_RATE_SENSOR_ID:
-                result = Constants.HEART_RATE_SENSOR_LABEL + "_bpm," + Constants.HEART_RATE_SENSOR_LABEL + "_q" ;
+                result = Constants.HEART_RATE_SENSOR_LABEL + "_bpm," + Constants.HEART_RATE_SENSOR_LABEL + "_q";
                 break;
 
             case Constants.RR_INTERVAL_SENSOR_ID:
@@ -1552,7 +1500,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case Constants.BAROMETER_SENSOR_ID:
-                result = Constants.BAROMETER_SENSOR_LABEL + "_pressure," + Constants.BAROMETER_SENSOR_LABEL + "_temp" ;
+                result = Constants.BAROMETER_SENSOR_LABEL + "_pressure," + Constants.BAROMETER_SENSOR_LABEL + "_temp";
                 break;
 
             case Constants.AMBIENT_LIGHT_SENSOR_ID:
@@ -1569,7 +1517,7 @@ public class MainActivity extends AppCompatActivity {
 
             case Constants.DISTANCE_SENSOR_ID:
                 //result = Constants.DISTANCE_SENSOR_LABEL + "_motion," + Constants.DISTANCE_SENSOR_LABEL + "_today," + Constants.DISTANCE_SENSOR_LABEL + "_pace, " +Constants.DISTANCE_SENSOR_LABEL + "_speed";
-                result = Constants.DISTANCE_SENSOR_LABEL + "_today," + Constants.DISTANCE_SENSOR_LABEL + "_pace, " +Constants.DISTANCE_SENSOR_LABEL + "_speed";
+                result = Constants.DISTANCE_SENSOR_LABEL + "_today," + Constants.DISTANCE_SENSOR_LABEL + "_pace, " + Constants.DISTANCE_SENSOR_LABEL + "_speed";
                 break;
 
             case Constants.BAND_CONTACT_SENSOR_ID:
@@ -1618,8 +1566,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void createSampleBasedCSV(String header) {
 
-        Log.v(LOG_TAG,"createSampleBasedCSV");
-
         outputDirectory = getOutputDirectory();
 
         Log.v(LOG_TAG, "outputDirectory.getAbsolutePath().toString(): " + outputDirectory.getAbsolutePath().toString());
@@ -1635,7 +1581,7 @@ public class MainActivity extends AppCompatActivity {
             bw.write(header);
             bw.newLine();
 
-            Log.v(LOG_TAG,"sampleDataset.size() :"  + sampleDataset.size());
+            Log.v(LOG_TAG, "sampleDataset.size() :" + sampleDataset.size());
 
             for (int i = 0; i < sampleDataset.size(); i++) {
 
@@ -1674,7 +1620,7 @@ public class MainActivity extends AppCompatActivity {
 
         String[] answer = new String[selectedSensorID.size()];
 
-        for(int i = 0 ; i < selectedSensorID.size(); i++){
+        for (int i = 0; i < selectedSensorID.size(); i++) {
 
             answer[i] = getReading(c, selectedSensorID.get(i));
 
@@ -1700,35 +1646,35 @@ public class MainActivity extends AppCompatActivity {
 
         String reading;
 
-        Log.v(LOG_TAG,"getReading sensorID: "  + sensorID);
+        Log.v(LOG_TAG, "getReading sensorID: " + sensorID);
 
-        if(sensorID == Constants.ALTIMETER_SENSOR_ID || sensorID == Constants.ACCELEROMETER_SENSOR_ID || sensorID == Constants.GYROSCOPE_SENSOR_ID || sensorID == Constants.DISTANCE_SENSOR_ID){
+        if (sensorID == Constants.ALTIMETER_SENSOR_ID || sensorID == Constants.ACCELEROMETER_SENSOR_ID || sensorID == Constants.GYROSCOPE_SENSOR_ID || sensorID == Constants.DISTANCE_SENSOR_ID) {
 
-            reading= "NaN,NaN,NaN";
+            reading = "NaN,NaN,NaN";
 
-        }else{
+        } else {
 
-            if(sensorID == Constants.HEART_RATE_SENSOR_ID  ){
+            if (sensorID == Constants.HEART_RATE_SENSOR_ID) {
 
-                reading= "NaN,NaN";
+                reading = "NaN,NaN";
 
-            }else{
+            } else {
 
-                reading= "NaN";
+                reading = "NaN";
 
             }
 
 
         }
 
-        for (int i = 0 ; i < rowcount; i++){
+        for (int i = 0; i < rowcount; i++) {
 
             c.moveToPosition(i);
 
             String currentID = c.getString(3);
             String interestID = "" + sensorID;
 
-            if(currentID.equals(interestID)){
+            if (currentID.equals(interestID)) {
 
                 reading = c.getString(4);
 
@@ -1749,13 +1695,13 @@ public class MainActivity extends AppCompatActivity {
 
             boolean check = sensorReadings.get(i).isCheckboxStatus();
 
-            if(check){
+            if (check) {
                 result.add(sensorReadings.get(i).getSensorID());
             }
 
         }
 
-        return  result;
+        return result;
 
     }
 
@@ -1808,7 +1754,7 @@ public class MainActivity extends AppCompatActivity {
         String label = "";
 
         switch (sensorID) {
-            
+
             case Constants.HEART_RATE_SENSOR_ID:
                 label = Constants.HEART_RATE_SENSOR_LABEL;
                 break;
@@ -1851,7 +1797,7 @@ public class MainActivity extends AppCompatActivity {
             case Constants.GYROSCOPE_SENSOR_ID:
                 label = Constants.GYROSCOPE_SENSOR_LABEL;
                 break;
-                
+
             case Constants.PEDOMETER_SENSOR_ID:
                 label = Constants.PEDOMETER_SENSOR_LABEL;
                 break;
@@ -1863,7 +1809,7 @@ public class MainActivity extends AppCompatActivity {
             case Constants.UV_LEVEL_SENSOR_ID:
                 label = Constants.UV_LEVEL_SENSOR_LABEL;
                 break;
-                
+
             case Constants.BAND_STATUS_SENSOR_ID:
                 label = Constants.BAND_STATUS_SENSOR_LABEL;
                 break;
@@ -1895,9 +1841,9 @@ public class MainActivity extends AppCompatActivity {
 
                 SaveButton.this.setEnabled(false);
 
-                Log.v(LOG_TAG,"timeFab setOnClickListener");
+                Log.v(LOG_TAG, "timeFab setOnClickListener");
                 clock.setText("" + TIMER_DURATION);
-                task = new FutureTask(new CounterCallable(MainActivity.this,0, TIMER_DURATION,1));
+                task = new FutureTask(new CounterCallable(MainActivity.this, 0, TIMER_DURATION, 1));
 
 
                 ExecutorService pool = Executors.newSingleThreadExecutor();

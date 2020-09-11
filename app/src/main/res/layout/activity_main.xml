@@ -88,7 +88,7 @@
         <LinearLayout
             android:layout_marginBottom="36dp"
             android:id="@+id/main_layout"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -102,24 +102,12 @@
 
             </ListView>
 
-            <FrameLayout
-                android:id="@+id/toggle_button_holder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ToggleButton
-                    android:id="@+id/togglebutton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="start">
-
-                </ToggleButton>
-            </FrameLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/loading_layout"
+            android:layout_marginBottom="36dp"
             android:visibility="visible"
             android:background="@android:color/white"
             android:layout_width="match_parent"
@@ -128,17 +116,10 @@
 
             <ImageView
                 android:layout_weight="1"
-                android:layout_centerInParent="true"
                 android:src="@drawable/myband_launcher"
                 android:scaleType="centerInside"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
-
-            <TextView
-                style="@style/PrimaryTextListItem"
-                android:text="loading..."
-                android:padding="8dp"
-                android:layout_gravity="center_horizontal"></TextView>
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -166,12 +147,24 @@
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:visibility="gone"
+        android:id="@+id/start_fab"
+        android:src="@drawable/glasses"
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/ic_check_white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:visibility="visible"
+        android:backgroundTint="@color/colorToggleOfLight"
+        android:id="@+id/stop_fab"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
