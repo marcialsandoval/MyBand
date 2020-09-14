@@ -93,13 +93,6 @@ public class SampleBasedCSVFileLoader implements LoaderManager.LoaderCallbacks<C
             Log.e(LOG_TAG, "FileWriter IOException: " + e.toString());
         }
 
-
-
-//
-//        Intent resetReadingsIntent = new Intent(Constants.RESET_SENSOR_READING);
-//        resetReadingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        mContext.sendBroadcast(resetReadingsIntent);
-
         for(int i = 0 ; i < sampleTimeStamps.size() ; i++){
 
             Log.v(LOG_TAG,""+i);
@@ -170,7 +163,6 @@ public class SampleBasedCSVFileLoader implements LoaderManager.LoaderCallbacks<C
 
             }else{
 
-//                mActivity.getLoaderManager().destroyLoader(id);
                 Toast.makeText(mContext,"ALL SAMPLES FOUND" , Toast.LENGTH_SHORT).show();
 
                 return null;
@@ -183,17 +175,10 @@ public class SampleBasedCSVFileLoader implements LoaderManager.LoaderCallbacks<C
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor cs) {
 
-            Log.v(LOG_TAG, "timeStampSensorReadingLoader: onLoadFinished ");
-
-//            mActivity.getLoaderManager().destroyLoader(loader.getId());
-
-//            Toast.makeText(mContext,"timeStampSensorReadingLoader: onLoadFinished" , Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onLoaderReset(Loader<Cursor> loader) {
-
-            Log.v(LOG_TAG, "timeStampSensorReadingLoader: onLoaderReset");
 
         }
     };
