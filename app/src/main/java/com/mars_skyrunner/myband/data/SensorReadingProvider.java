@@ -33,17 +33,6 @@ public class SensorReadingProvider extends ContentProvider {
      */
     private static final int READING_ID = 101;
 
-//    /**
-//     * URI matcher code for the content URI for the readings table
-//     */
-//    private static final int MASTER_READINGS = 102;
-//
-//    /**
-//     * URI matcher code for the content URI for a single reading in the readings table
-//     */
-//    private static final int MASTER_READING_ID = 103;
-
-
     /**
      * UriMatcher object to match a content URI to a corresponding code.
      * The input passed into the constructor represents the code to return for the root URI.
@@ -55,9 +44,6 @@ public class SensorReadingProvider extends ContentProvider {
     static {
         sUriMatcher.addURI(SensorReadingContract.CONTENT_AUTHORITY, SensorReadingContract.PATH_READINGS, READINGS);
         sUriMatcher.addURI(SensorReadingContract.CONTENT_AUTHORITY, SensorReadingContract.PATH_READINGS + "/#", READING_ID);
-//        sUriMatcher.addURI(SensorReadingContract.CONTENT_AUTHORITY, SensorReadingContract.PATH_MASTER_READINGS, MASTER_READINGS);
-//        sUriMatcher.addURI(SensorReadingContract.CONTENT_AUTHORITY, SensorReadingContract.PATH_MASTER_READINGS + "/#", MASTER_READING_ID);
-
     }
 
     /**
@@ -75,7 +61,6 @@ public class SensorReadingProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
 
-        //Log.w(LOG_TAG, "Cursor query ");
 
         String projectionString = "";
         //Log.w(LOG_TAG, "projection.length:  " + projection.length);
@@ -85,9 +70,6 @@ public class SensorReadingProvider extends ContentProvider {
             projectionString += projection[i] + " , ";
 
         }
-
-
-        //Log.w(LOG_TAG, "projectionString:  " + projectionString);
 
         // Get readable database
         SQLiteDatabase database = mDbHelper.getReadableDatabase();

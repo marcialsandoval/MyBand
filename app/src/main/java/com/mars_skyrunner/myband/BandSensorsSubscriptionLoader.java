@@ -358,8 +358,6 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
 
 //EVENT LISTENERS
-
-
     private BandHeartRateEventListener mHeartRateEventListener = new BandHeartRateEventListener() {
         @Override
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
@@ -401,7 +399,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
     private BandUVEventListener mUVEventListener = new BandUVEventListener() {
         @Override
-        public void onBandUVChanged(BandUVEvent bandUVEvent) {//TODO:LOS REGISTROS DE UV SON HECHOS CADA MINUTO
+        public void onBandUVChanged(BandUVEvent bandUVEvent) {
             if (bandUVEvent != null) {
 
                 UVIndexLevel level = bandUVEvent.getUVIndexLevel();
@@ -426,7 +424,7 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
                 @Override
                 public void onBandSkinTemperatureChanged(BandSkinTemperatureEvent bandSkinTemperatureEvent) {
-                    if (bandSkinTemperatureEvent != null) {//TODO: LOS REGISTROS DE SKINTEMP SON HECHOS CADA 30SEG
+                    if (bandSkinTemperatureEvent != null) {
 
                         double temp = bandSkinTemperatureEvent.getTemperature();
                         DecimalFormat df = new DecimalFormat("0.00");
@@ -525,16 +523,6 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
             }
         }
     };
-
-    private void appendToUI(String value, String sensor) {
-
-        Intent appendToUiIntent = new Intent(Constants.DISPLAY_VALUE);
-        appendToUiIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        appendToUiIntent.putExtra(Constants.SENSOR, sensor);
-        appendToUiIntent.putExtra(Constants.VALUE, value);
-        mContext.sendBroadcast(appendToUiIntent);
-
-    }
 
     private BandContactEventListener mContactEventListener = new BandContactEventListener() {
         @Override
@@ -722,6 +710,28 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
         }
     };
 
+    /**
+     *This method displays the sensor value on screen.
+     * @param value Value to be displayed on screen
+     * @param sensor Sensor sending the value
+     */
+
+    private void appendToUI(String value, String sensor) {
+
+        Intent appendToUiIntent = new Intent(Constants.DISPLAY_VALUE);
+        appendToUiIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        appendToUiIntent.putExtra(Constants.SENSOR, sensor);
+        appendToUiIntent.putExtra(Constants.VALUE, value);
+        mContext.sendBroadcast(appendToUiIntent);
+
+    }
+
+    /**
+     *This method saves sensor reading data to the SQLite Database via DbInsertionService.
+     * @param  sensorID Sensors unique id.
+     * @param sensorValue Sensors value to be written.
+     * @param sensorSampleRate Sensors sampling rate.
+     */
     private void createSensorReadingObject(int sensorID, String sensorValue, String sensorSampleRate) {
 
         long currentTime = System.currentTimeMillis();
@@ -734,6 +744,10 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
     }
 
+    /**
+     *This method retrieves the sensors sampling rate according to its sensor id.
+     * @param  sensorID Sensors unique id.
+     */
     private String getSensorSamplingRate(int sensorID) {
 
         String sampleRate = "";

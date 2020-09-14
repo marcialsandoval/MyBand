@@ -34,7 +34,6 @@ public  final class SensorReadingContract {
 
     public static final String PATH_READINGS = "readings";
 
-//    public static final String PATH_MASTER_READINGS = "master_readings";
 
     /**
      * Inner class that defines constant values for the SensorReadings database table.
