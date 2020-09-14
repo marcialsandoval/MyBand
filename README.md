@@ -3,6 +3,10 @@
 ## Summary
 Myband is an android app which goal is to make a real-time reading of a Microsoft Band 2 sensors and export their values to a csv file.  It has a single activity where sensors are displayed, with a "Save Metrics" button , to export the sensor readings to a .csv file. 
 
+![myband_ic](https://user-images.githubusercontent.com/61889565/93129198-7c04e400-f685-11ea-9746-a1705fffe588.png)
+
+
+
 ## Configuration
 As a pre-requisite, ensure your Microsoft Band 2 is configured for use on your android device.
 
