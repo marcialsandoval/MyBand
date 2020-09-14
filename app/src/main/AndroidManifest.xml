@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_myband"
+        android:icon="@mipmap/ic_myband_notitle"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_myband_round"
+        android:roundIcon="@mipmap/ic_myband_notitle_round"
         android:supportsRtl="true"
         android:debuggable="true"
         >

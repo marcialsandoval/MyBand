@@ -63,8 +63,8 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="foregroundImage" value="C:\Users\marci\Downloads\Icono_MyBand-04.png" />
-                                      <entry key="outputName" value="ic_myband" />
+                                      <entry key="foregroundImage" value="C:\Users\marci\OneDrive\Escritorio\myband_ic.png" />
+                                      <entry key="outputName" value="ic_myband_notitle" />
                                     </map>
                                   </option>
                                 </PersistentState>
