@@ -31,6 +31,13 @@ public class SensorReading  implements  Parcelable{
         mSensorReading = sensorReading;
     }
 
+   public SensorReading(Context context, int sensorID, String sensorReading, String rate){
+        mContext = context;
+        mSensorID = sensorID;
+        mSensorReading = sensorReading;
+       mSensorReadingRate = rate;
+    }
+
 
 
     public SensorReading(Context context, int sensorID, String sensorReading, String rate, long time){
@@ -148,6 +155,10 @@ public class SensorReading  implements  Parcelable{
 
     public long getSensorTime() {
         return mSensorReadingTime;
+    }
+
+    public void setSensorReadingRate(String mSensorReadingRate) {
+        this.mSensorReadingRate = mSensorReadingRate;
     }
 
     public String getSensorReadingRate() {

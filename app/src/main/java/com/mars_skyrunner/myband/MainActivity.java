@@ -328,14 +328,14 @@ public class MainActivity extends AppCompatActivity {
         sensorReadings = new ArrayList<>();
         sensorReadings.add(new SensorReading(this, Constants.HEART_RATE_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.RR_INTERVAL_SENSOR_ID, ""));
-        sensorReadings.add(new SensorReading(this, Constants.ACCELEROMETER_SENSOR_ID, ""));
+        sensorReadings.add(new SensorReading(this, Constants.ACCELEROMETER_SENSOR_ID, "",  Constants.SR_8));
         sensorReadings.add(new SensorReading(this, Constants.ALTIMETER_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.AMBIENT_LIGHT_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.BAROMETER_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.GSR_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.CALORIES_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.DISTANCE_SENSOR_ID, ""));
-        sensorReadings.add(new SensorReading(this, Constants.GYROSCOPE_SENSOR_ID, ""));
+        sensorReadings.add(new SensorReading(this, Constants.GYROSCOPE_SENSOR_ID, "",  Constants.SR_8));
         sensorReadings.add(new SensorReading(this, Constants.PEDOMETER_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.SKIN_TEMPERATURE_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.UV_LEVEL_SENSOR_ID, ""));

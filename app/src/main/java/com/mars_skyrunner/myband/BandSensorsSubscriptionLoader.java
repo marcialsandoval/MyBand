@@ -189,11 +189,6 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
                         Spinner accSensorSampleRateSelector = (Spinner) mListView.getChildAt(Constants.ACCELEROMETER_SENSOR_ID - 1).findViewById(R.id.sample_rate_spinner);
                         accSampleRateSelection = accSensorSampleRateSelector.getSelectedItem().toString();
-                            /*
-                            *  MS128 : A value representing a sample rate of every 128 milliseconds
-                               MS16 : A value representing a sample rate of every 16 milliseconds
-                               MS32 : A value representing a sample rate of every 32 milliseconds
-                            * */
 
                         client.getSensorManager().registerAccelerometerEventListener(mAccelerometerEventListener, getSampleRate(accSampleRateSelection));
 

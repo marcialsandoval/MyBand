@@ -95,20 +95,32 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
 
             case Constants.ACCELEROMETER_SENSOR_ID:
             case Constants.GYROSCOPE_SENSOR_ID:
+
                 samplingRateTV.setVisibility(View.GONE);
                 container.setVisibility(View.VISIBLE);
-                options.add("8");
-                options.add("31");
-                options.add("62");
+                options.add(Constants.SAMPLE_RATE_OPTIONS[4]);
+                options.add(Constants.SAMPLE_RATE_OPTIONS[5]);
+                options.add(Constants.SAMPLE_RATE_OPTIONS[6]);
                 dataAdapter = new ArrayAdapter<String>(mContext, R.layout.sample_rate_option_textview, options);
                 mSpinner.setAdapter(dataAdapter);
+
+                if(sensorReading.getSensorReadingRate().equals(Constants.SAMPLE_RATE_OPTIONS[4])){
+                    mSpinner.setSelection(0);
+                }else{
+                    if(sensorReading.getSensorReadingRate().equals(Constants.SAMPLE_RATE_OPTIONS[5])){
+                        mSpinner.setSelection(1);
+                    }else{
+                        mSpinner.setSelection(2);
+                    }
+                }
+
                 break;
 
             case Constants.GSR_SENSOR_ID:
                 samplingRateTV.setVisibility(View.GONE);
                 container.setVisibility(View.VISIBLE);
-                options.add("5");
-                options.add("0.2");
+                options.add(Constants.SAMPLE_RATE_OPTIONS[0]);
+                options.add(Constants.SAMPLE_RATE_OPTIONS[3]);
                 dataAdapter = new ArrayAdapter<String>(mContext, R.layout.sample_rate_option_textview, options);
                 mSpinner.setAdapter(dataAdapter);
                 break;
@@ -126,15 +138,15 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
                     case Constants.BAROMETER_SENSOR_ID:
                     case Constants.ALTIMETER_SENSOR_ID:
                     case Constants.UV_LEVEL_SENSOR_ID:
-                        sampleRate = "1 hz";
+                        sampleRate = Constants.SAMPLE_RATE_OPTIONS[1];
                         break;
 
                     case Constants.AMBIENT_LIGHT_SENSOR_ID:
-                        sampleRate = "2 hz";
+                        sampleRate = Constants.SAMPLE_RATE_OPTIONS[2];
                         break;
 
                     default:
-                        sampleRate = "Value change";
+                        sampleRate = Constants.SAMPLE_RATE_OPTIONS[7];
                         break;
 
                 }
@@ -145,17 +157,23 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
 
         }
 
-        spinnerSelection = 0;
+
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
 
+                //TODO: SET sensorReadings Sampling rate
+
                 //If spinner selection changes, stopButtonClicked() Method is called on MainActivity class
                 if (arg2 != spinnerSelection) {
 
                     spinnerSelection = arg2;
+
+                    String accSampleRateSelection = mSpinner.getSelectedItem().toString();
+                    sensorReadings.get(position).setSensorReadingRate(accSampleRateSelection);
+
 
                     Intent stopReadingIntent = new Intent(Constants.RESET_SENSOR_READING);
                     stopReadingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
