@@ -1,9 +1,7 @@
 package com.mars_skyrunner.myband;
 
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -13,11 +11,8 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,11 +21,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Checkable;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -39,28 +31,18 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import com.mars_skyrunner.myband.data.SensorReadingContract;
 import com.mars_skyrunner.myband.data.SensorReadingContract.ReadingEntry;
 import com.microsoft.band.BandClient;
 import com.microsoft.band.BandException;
 import com.microsoft.band.BandIOException;
 import com.microsoft.band.ConnectionState;
-import com.microsoft.band.sensors.HeartRateQuality;
-
-import org.mortbay.jetty.Main;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
-import java.security.Provider;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -71,8 +53,9 @@ import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Global Variables
     public static BandClient client = null;
-    final String LOG_TAG = "MainActivity";
+    final String LOG_TAG = MainActivity.class.getSimpleName();
     private TextView bandStatusTxt;
     Toolbar toolbar;
     public static ListView mListView;
@@ -86,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     public static SaveButton saveDataButton;
     FutureTask task = null;
     boolean saveClicked = false;
-    FrameLayout holder, saveButtonHolder;
+    FrameLayout saveButtonHolder;
     ImageButton settingsButton;
     ArrayList<SensorReading> values = new ArrayList<SensorReading>();
     String fileNameExtension = ".csv";
@@ -102,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     int sampleTimeStampsIterator;
     public static long TIMER_DURATION = 4;
     private SensorArrayAdapter mAdapter;
-
+    boolean sensorSelected = false;
     FloatingActionButton startFab;
     FloatingActionButton stopFab;
 
@@ -160,7 +143,15 @@ public class MainActivity extends AppCompatActivity {
                 startFab.hide();
                 stopFab.show();
 
-                restoreActivity();
+                for (SensorReading sr : sensorReadings) {
+
+                    if (sr.isCheckboxStatus()) {
+                        sensorSelected = true;
+                        sensorReadings.get(sr.getSensorID() - 1).setProgressBarStatus(true);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+
 
                 if (!bandSubscriptionTaskRunning) {
 
@@ -202,18 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (bandSubscriptionTaskRunning) {
 
-                    boolean sensorSelected = false;
-
                     saveClicked = true;
-
-                    for (SensorReading sr : sensorReadings) {
-
-                        if (sr.isCheckboxStatus()) {
-                            sensorSelected = true;
-                            sensorReadings.get(sr.getSensorID() - 1).setProgressBarStatus(true);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    }
 
                     if (!sensorSelected) {  //Band is connected, but no sensor is selected to take any data point
 
@@ -1833,15 +1813,10 @@ public class MainActivity extends AppCompatActivity {
 
             isChecked = b;
 
-            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-            int defaultValue = getResources().getInteger(R.integer.csv_mode_key_default_value);
-            int csvMode = sharedPref.getInt(getString(R.string.csv_mode_key), defaultValue);
-
             if (b) {
 
                 SaveButton.this.setEnabled(false);
 
-                Log.v(LOG_TAG, "timeFab setOnClickListener");
                 clock.setText("" + TIMER_DURATION);
                 task = new FutureTask(new CounterCallable(MainActivity.this, 0, TIMER_DURATION, 1));
 
@@ -1858,15 +1833,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean isChecked() {
 
-            //Log.v(LOG_TAG,"SaveButton: isChecked: " + isChecked);
-
             return isChecked;
         }
 
         @Override
         public void toggle() {
-
-            //Log.v(LOG_TAG,"SaveButton: toggle");
 
         }
 
@@ -1942,10 +1913,9 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
+
                     // find which radio button is selected
-
                     int csvOutputFileMode;
-
 
                     SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -1991,7 +1961,6 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                     int defaultValue = getResources().getInteger(R.integer.csv_mode_key_default_value);
                     int newCsvMode = sharedPref.getInt(getString(R.string.csv_mode_key), defaultValue);
-
 
                     if (TextUtils.isEmpty(newPrefix) && (prevCsvMode == newCsvMode)) {
 

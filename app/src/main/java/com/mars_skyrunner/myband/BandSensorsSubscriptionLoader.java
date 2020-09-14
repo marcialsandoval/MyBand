@@ -729,7 +729,6 @@ public class BandSensorsSubscriptionLoader extends android.content.AsyncTaskLoad
 
     private void createSensorReadingObject(int sensorID, String sensorValue, String sensorSampleRate) {
 
-
         long currentTime = System.currentTimeMillis();
 
         SensorReading sensorReading = new SensorReading(mContext, sensorID, sensorValue, sensorSampleRate, currentTime);
