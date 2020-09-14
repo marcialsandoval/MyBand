@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
         sensorReadings.add(new SensorReading(this, Constants.ALTIMETER_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.AMBIENT_LIGHT_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.BAROMETER_SENSOR_ID, ""));
-        sensorReadings.add(new SensorReading(this, Constants.GSR_SENSOR_ID, ""));
+        sensorReadings.add(new SensorReading(this, Constants.GSR_SENSOR_ID, "", Constants.SR_02));
         sensorReadings.add(new SensorReading(this, Constants.CALORIES_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.DISTANCE_SENSOR_ID, ""));
         sensorReadings.add(new SensorReading(this, Constants.GYROSCOPE_SENSOR_ID, "",  Constants.SR_8));

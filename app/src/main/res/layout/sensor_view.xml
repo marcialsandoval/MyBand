@@ -69,26 +69,30 @@
                     android:text="sampling rate:"
                     android:textSize="8sp" />
 
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/sample_rate_display"
-                    style="@style/SecondaryTextListItem"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="1 Hz" />
-
                 <LinearLayout
                     android:id="@+id/sample_rate_spinner_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:visibility="visible"
+                        android:id="@+id/sample_rate_display"
+                        style="@style/SecondaryTextListItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="1" />
+
                     <Spinner
+                        android:visibility="gone"
                         android:id="@+id/sample_rate_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                     </Spinner>
+
                     <TextView
+                        android:id="@+id/hertz_tv"
                         style="@style/SecondaryTextListItem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

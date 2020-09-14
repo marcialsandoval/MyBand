@@ -48,8 +48,10 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
         TextView name = convertView.findViewById(R.id.sensor_name);
         TextView id = convertView.findViewById(R.id.sensor_id);
         TextView samplingRateTV = convertView.findViewById(R.id.sample_rate_display);
+        TextView hertzTV = convertView.findViewById(R.id.hertz_tv);
+        hertzTV.setVisibility(View.VISIBLE);
+
         final Spinner mSpinner = convertView.findViewById(R.id.sample_rate_spinner);
-        LinearLayout container =  convertView.findViewById(R.id.sample_rate_spinner_container);
         ProgressBar bar =  convertView.findViewById(R.id.progress_bar);
 
         if(sensorReading.isProgressBarStatus()){
@@ -97,7 +99,8 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
             case Constants.GYROSCOPE_SENSOR_ID:
 
                 samplingRateTV.setVisibility(View.GONE);
-                container.setVisibility(View.VISIBLE);
+                mSpinner.setVisibility(View.VISIBLE);
+
                 options.add(Constants.SAMPLE_RATE_OPTIONS[4]);
                 options.add(Constants.SAMPLE_RATE_OPTIONS[5]);
                 options.add(Constants.SAMPLE_RATE_OPTIONS[6]);
@@ -118,17 +121,25 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
 
             case Constants.GSR_SENSOR_ID:
                 samplingRateTV.setVisibility(View.GONE);
-                container.setVisibility(View.VISIBLE);
+                mSpinner.setVisibility(View.VISIBLE);
+
                 options.add(Constants.SAMPLE_RATE_OPTIONS[0]);
                 options.add(Constants.SAMPLE_RATE_OPTIONS[3]);
                 dataAdapter = new ArrayAdapter<String>(mContext, R.layout.sample_rate_option_textview, options);
                 mSpinner.setAdapter(dataAdapter);
+
+                if(sensorReading.getSensorReadingRate().equals(Constants.SAMPLE_RATE_OPTIONS[0])){
+                    mSpinner.setSelection(0);
+                }else{
+                    mSpinner.setSelection(1);
+                }
+
                 break;
 
             default:
-
                 samplingRateTV.setVisibility(View.VISIBLE);
-                container.setVisibility(View.GONE);
+                mSpinner.setVisibility(View.GONE);
+
                 String sampleRate = "";
 
                 switch (sensorReading.getSensorID()) {
@@ -146,6 +157,7 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
                         break;
 
                     default:
+                        hertzTV.setVisibility(View.GONE);
                         sampleRate = Constants.SAMPLE_RATE_OPTIONS[7];
                         break;
 
@@ -164,8 +176,6 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
 
-                //TODO: SET sensorReadings Sampling rate
-
                 //If spinner selection changes, stopButtonClicked() Method is called on MainActivity class
                 if (arg2 != spinnerSelection) {
 
@@ -173,7 +183,6 @@ public class SensorArrayAdapter extends ArrayAdapter<SensorReading> {
 
                     String accSampleRateSelection = mSpinner.getSelectedItem().toString();
                     sensorReadings.get(position).setSensorReadingRate(accSampleRateSelection);
-
 
                     Intent stopReadingIntent = new Intent(Constants.RESET_SENSOR_READING);
                     stopReadingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
