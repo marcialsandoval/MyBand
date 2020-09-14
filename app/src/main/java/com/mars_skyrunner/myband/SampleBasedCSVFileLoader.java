@@ -34,9 +34,6 @@ public class SampleBasedCSVFileLoader implements LoaderManager.LoaderCallbacks<C
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-        Log.v(LOG_TAG, "SampleBasedCSVFileLoader: onCreateLoader");
-
-
         // Define a projection that specifies the columns from the table we care about.
         String[] projection = {
                 ReadingEntry._ID,
