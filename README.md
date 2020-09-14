@@ -20,7 +20,9 @@ It has a 'Settings' option where the output csv file format can be adjusted.
 ![csv_settings](https://user-images.githubusercontent.com/61889565/93125139-8cb25b80-f67f-11ea-8985-fc1320ed2761.png)
 
 'Frquency based' csv file: it exports a csv file for each selected sampling rate. 
+
 'Time based' csv file: it exports a single csv file with all sensor readings ordered by their timestamp.
+
 'Sample based' csv file: it exports  a single csv file, concatenating all readings into a single row according to their timestamp.
 
 First, the values need to be read without 'recording' them into the output csv file. Then, the  'Save Metrics' button needs to be pressed in order to start 'recording' the sensor values into the database. When the time is up, all the values previously written to the database are written into a csv file.
